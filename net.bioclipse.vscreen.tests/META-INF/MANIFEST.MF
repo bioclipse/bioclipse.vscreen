@@ -1,0 +1,23 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: VScreen Tests
+Bundle-SymbolicName: net.bioclipse.vscreen.tests; singleton:=true
+Bundle-Version: 0.0.1.20090930
+Bundle-Activator: net.bioclipse.vscreen.tests.Activator
+Bundle-Vendor: The Bioclipse Team
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.core.resources,
+ net.bioclipse.core,
+ net.bioclipse.core.tests,
+ net.bioclipse.scripting,
+ org.springframework.bundle.spring.aop,
+ net.sf.cglib,
+ org.springframework.osgi.aopalliance.osgi,
+ org.junit4,
+ net.bioclipse.vscreen,
+ net.bioclipse.structuredb;bundle-version="2.1.0",
+ net.bioclipse.cdk.business;bundle-version="2.1.0"
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Import-Package: org.apache.log4j
+Bundle-ActivationPolicy: lazy
