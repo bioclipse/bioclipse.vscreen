@@ -52,7 +52,7 @@ public class VScreenManager implements IBioclipseManager {
     
 
     public void filter(String dbname, IFilter filter, String label, 
-                       IProgressMonitor monitor){
+                       IProgressMonitor monitor) throws BioclipseException{
         
         List<IFilter> filters=new ArrayList<IFilter>();
         filters.add(filter);
@@ -60,10 +60,21 @@ public class VScreenManager implements IBioclipseManager {
     }
     
     public void filter(String dbname, List<IFilter> filters, String label, 
-                       IProgressMonitor monitor){
+                       IProgressMonitor monitor) throws BioclipseException{
 
         //Get managers we need
         IStructuredbManager sdb=Activator.getDefault().getStructuredbManager();
+        
+        if (!(sdb.allDatabaseNames().contains( dbname )))
+            throw new BioclipseException( "No database exists with name: " 
+                                          + dbname );
+        
+        if (filters==null || filters.size()<=0)
+            throw new BioclipseException( "Please provide at least one filter");
+
+        if (label==null || label.length()<=0)
+            throw new BioclipseException( "Label must not be empty");
+
 
         //Create the new annotation to store filtered set in
         TextAnnotation filteredAnnotation = sdb.createTextAnnotation( dbname, 
@@ -128,18 +139,13 @@ public class VScreenManager implements IBioclipseManager {
         
         filtername=filtername.toLowerCase();
         
-        //Look up available filters. Now, just a hardcoded list.
-        //TODO: Extend with an extension point!
-        Map<String, Class> filterMap=new HashMap<String, Class>();
-        filterMap.put( "xlogp", XlogPFilter.class );
-        filterMap.put( "molweight", MWFilter.class );
-        if (!(filterMap.containsKey( filtername )))
+        if (!(getFilterMap().containsKey( filtername )))
             throw new BioclipseException( "No filter with name: " +filtername );
 
         //Look up and instantiate filter
         IFilter filter;
         try {
-            filter = (IFilter) filterMap.get( filtername ).newInstance();
+            filter = (IFilter) getFilterMap().get( filtername ).newInstance();
             if ( filter instanceof IDoubleFilter ) {
                 IDoubleFilter df= (IDoubleFilter) filter;
                 df.setOperator( operator );
@@ -153,6 +159,20 @@ public class VScreenManager implements IBioclipseManager {
         throw new BioclipseException( "Filter found but not supported: " 
                                       + filtername );
         
+    }
+
+    public List<String> listFilters(){
+        return new ArrayList<String>(getFilterMap().keySet());
+    }
+
+    private Map<String, Class> getFilterMap() {
+
+        //Look up available filters. Now, just a hardcoded list.
+        //TODO: Extend with an extension point!
+        Map<String, Class> filterMap=new HashMap<String, Class>();
+        filterMap.put( "xlogp", XlogPFilter.class );
+        filterMap.put( "molweight", MWFilter.class );
+        return filterMap;
     }
 
 

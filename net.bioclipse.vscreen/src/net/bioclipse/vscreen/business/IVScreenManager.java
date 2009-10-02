@@ -34,19 +34,26 @@ public interface IVScreenManager extends IBioclipseManager {
                             "String label",
        methodSummary = "Filter a database for a Filter. "+
           "Creates a new label in the database.")
-    public void filter(String dbname, IFilter filter, String label);
-
+    public void filter(String dbname, IFilter filter, String label)
+        throws BioclipseException;
+    
     @Recorded
     @PublishedMethod(params="String dbname, List<IFilter> filters, " +
                             "String label",
        methodSummary = "Filter a database for a certian set of Filters. "+
           "Creates a new label in the database.")
-    public void filter(String dbname, List<IFilter> filters, String label);
+    public void filter(String dbname, List<IFilter> filters, String label)
+        throws BioclipseException;
 
     @Recorded
     @PublishedMethod(
        methodSummary = "Returns an empty list for Filters.")
     public IFilter createFilter(String filtername, String operator,double value)
         throws BioclipseException;
+
+    @Recorded
+    @PublishedMethod(
+       methodSummary = "Returns a list of available Filters.")
+    public List<String> listFilters();
 
 }
