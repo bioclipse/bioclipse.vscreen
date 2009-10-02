@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: VScreen Tests
 Bundle-SymbolicName: net.bioclipse.vscreen.tests; singleton:=true
-Bundle-Version: 0.0.1.20090930
+Bundle-Version: 2.1.1.v20091002
 Bundle-Activator: net.bioclipse.vscreen.tests.Activator
 Bundle-Vendor: The Bioclipse Team
 Require-Bundle: org.eclipse.ui,

@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="net.bioclipse.vscreen_feature"
-      label="Vscreen_feature"
-      version="0.0.1.v20090929"
-      provider-name="The Bioclipse Team">
+      label="VScreen"
+      version="2.1.1.v20091002"
+      provider-name="The Bioclipse Team"
+      plugin="net.bioclipse.vscreen">
 
    <description url="http://www.example.com/description">
       [Enter Feature Description here.]

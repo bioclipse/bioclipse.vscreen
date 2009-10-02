@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: VScreen
 Bundle-SymbolicName: net.bioclipse.vscreen; singleton:=true
-Bundle-Version: 0.0.1.v20090929
+Bundle-Version: 2.1.1.v20091002
 Bundle-Activator: net.bioclipse.vscreen.Activator
 Bundle-Vendor: The Bioclipse Team
 Export-Package: net.bioclipse.vscreen, net.bioclipse.vscreen.business
