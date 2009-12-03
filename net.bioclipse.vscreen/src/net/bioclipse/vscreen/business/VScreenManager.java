@@ -10,7 +10,7 @@
  ******************************************************************************/
 package net.bioclipse.vscreen.business;
 
- import java.util.ArrayList;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -21,7 +21,7 @@ import net.bioclipse.core.domain.RecordableList;
 import net.bioclipse.core.util.TimeCalculater;
 import net.bioclipse.managers.business.IBioclipseManager;
 import net.bioclipse.structuredb.Activator;
-import net.bioclipse.structuredb.business.IStructuredbManager;
+import net.bioclipse.structuredb.business.IJavaStructuredbManager;
 import net.bioclipse.structuredb.domain.DBMolecule;
 import net.bioclipse.structuredb.domain.TextAnnotation;
 import net.bioclipse.vscreen.filters.IDoubleFilter;
@@ -63,7 +63,7 @@ public class VScreenManager implements IBioclipseManager {
                        IProgressMonitor monitor) throws BioclipseException{
 
         //Get managers we need
-        IStructuredbManager sdb=Activator.getDefault().getStructuredbManager();
+        IJavaStructuredbManager sdb=Activator.getDefault().getStructuredbManager();
         
         if (!(sdb.allDatabaseNames().contains( dbname )))
             throw new BioclipseException( "No database exists with name: " 

@@ -18,7 +18,7 @@ import java.net.URL;
 import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.util.FileUtil;
 import net.bioclipse.structuredb.Activator;
-import net.bioclipse.structuredb.business.IStructuredbManager;
+import net.bioclipse.structuredb.business.IJavaStructuredbManager;
 import net.bioclipse.vscreen.business.IVScreenManager;
 
 import org.eclipse.core.resources.IFile;
@@ -40,7 +40,7 @@ public abstract class AbstractVScreenManagerPluginTest {
     
     private final String TEST_DB_NAME="TestDB";
     private final String TEST_FILE = "/net/bioclipse/vscreen/tests/data/Fragments2.sdf";
-    IStructuredbManager sdb;
+    IJavaStructuredbManager sdb;
     
     @Before
     public void initialize() throws IOException, CoreException, BioclipseException{
