@@ -124,8 +124,7 @@ public class VScreenManager implements IBioclipseManager {
 
             //If all filters passed, add annotation to mol
             if (matches>=matchesRequired){
-                molecule.addAnnotation(filteredAnnotation);
-                sdb.updateMolecule(dbname, molecule);
+                sdb.annotate( dbname, molecule, filteredAnnotation );
             }
 
             monitor.worked( 1 );
