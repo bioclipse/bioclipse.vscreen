@@ -178,7 +178,6 @@ public class VScreenManager implements IBioclipseManager {
 
                     //Also, we need to annotate it with the filteredAnnotation
                     sdb.annotate( newDBname, newmol, filteredAnnotation );
-                    sdb.save( newDBname, newmol );
                 }
             }
 
