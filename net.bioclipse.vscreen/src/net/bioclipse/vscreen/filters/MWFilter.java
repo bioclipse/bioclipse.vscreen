@@ -12,30 +12,33 @@ package net.bioclipse.vscreen.filters;
 
 import net.bioclipse.cdk.business.ICDKManager;
 import net.bioclipse.core.business.BioclipseException;
-import net.bioclipse.structuredb.domain.DBMolecule;
+import net.bioclipse.core.domain.IMolecule;
 
 
 /**
+ * An MWFilter is an IDoubleFilter that filters out molecules based on 
+ * their molecular weight.
  * 
  * @author ola
  *
  */
 public class MWFilter extends AbstractDoubleFilter implements IDoubleFilter{
 
-
     private ICDKManager cdk;
-    
-    public String getName() {
-        return "MolWeight";
-    }
-    
+
+    /**
+     * Constructor.
+     */
     public MWFilter() {
         cdk = 
           net.bioclipse.cdk.business.Activator.getDefault().getJavaCDKManager();
     }
-    
-    public boolean doMatch( DBMolecule molecule ) throws BioclipseException {
-            return compare( cdk.calculateMass( molecule), getThreshold());
+
+    /**
+     * Filter out molecules base on molecular weight,
+     */
+    public boolean passFilter( IMolecule molecule ) throws BioclipseException {
+        return compare( cdk.calculateMass( molecule), getThreshold());
     }
 
 }

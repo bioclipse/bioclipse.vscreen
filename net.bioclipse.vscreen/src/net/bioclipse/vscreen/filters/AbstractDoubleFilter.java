@@ -12,11 +12,13 @@ package net.bioclipse.vscreen.filters;
 
 
 /**
+ * An abstract implementation of an IDoubleFilter.
  * 
  * @author ola
  *
  */
-public abstract class AbstractDoubleFilter implements IDoubleFilter {
+public abstract class AbstractDoubleFilter extends AbstractScreeningFilter 
+                                           implements IDoubleFilter {
 
     public final static int OPERATOR_GRT=0x0;
     public final static int OPERATOR_GRTEQ=0x1;

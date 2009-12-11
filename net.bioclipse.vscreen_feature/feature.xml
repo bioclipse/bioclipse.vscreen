@@ -20,8 +20,8 @@ The Eclipse Public License accompanies this distribution, and is available at ht
    </license>
 
    <requires>
-      <import feature="net.bioclipse.chemoinformatics_feature" version="2.1.0.v20090807" match="greaterOrEqual"/>
-      <import feature="net.bioclipse.structuredb_feature" version="2.1.0.v20090807" match="greaterOrEqual"/>
+      <import feature="net.bioclipse.chemoinformatics_feature" version="2.2.0.RC2" match="greaterOrEqual"/>
+      <import feature="net.bioclipse.structuredb_feature" version="2.2.0.RC2" match="greaterOrEqual"/>
    </requires>
 
    <plugin

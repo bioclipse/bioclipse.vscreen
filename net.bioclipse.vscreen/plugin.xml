@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
+   <extension-point id="filter" name="VScreen Filter" schema="schema/filter.exsd"/>
 
    <extension
          point="net.bioclipse.scripting.contribution">
@@ -9,5 +10,21 @@
             id="net.bioclipse.vscreen.business.VScreenManager">
       </scriptContribution>
    </extension>
+
+   <extension
+         point="net.bioclipse.vscreen.filter">
+      <screeningFilter
+            class="net.bioclipse.vscreen.filters.MWFilter"
+            id="net.bioclipse.vscreen.filters.MWFilter"
+            name="MW">
+      </screeningFilter>
+      <screeningFilter
+            class="net.bioclipse.vscreen.filters.XlogPFilter"
+            id="net.bioclipse.vscreen.filters.XlogPFilter"
+            name="XlogP">
+      </screeningFilter>
+   </extension>
+   
+   
 
 </plugin>

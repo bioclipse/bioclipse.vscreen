@@ -10,8 +10,10 @@
  ******************************************************************************/
 package net.bioclipse.vscreen.filters;
 
+import net.bioclipse.cdk.business.ICDKManager;
+import net.bioclipse.cdk.domain.ICDKMolecule;
 import net.bioclipse.core.business.BioclipseException;
-import net.bioclipse.structuredb.domain.DBMolecule;
+import net.bioclipse.core.domain.IMolecule;
 
 import org.openscience.cdk.qsar.DescriptorValue;
 import org.openscience.cdk.qsar.descriptors.molecular.XLogPDescriptor;
@@ -24,27 +26,36 @@ import org.openscience.cdk.qsar.result.DoubleResult;
  */
 public class XlogPFilter extends AbstractDoubleFilter implements IDoubleFilter{
 
-    public XlogPFilter() {
-    }
+    private ICDKManager cdk;
+    private XLogPDescriptor xlogp;
 
-    public String getName() {
-        return "XlogP";
+    /**
+     * Constructor.
+     */
+    public XlogPFilter() {
+        cdk = 
+          net.bioclipse.cdk.business.Activator.getDefault().getJavaCDKManager();
+        xlogp=new XLogPDescriptor();
+
     }
+    
 
     /**
      * Calculate xlogp and compare with threshold
      */
-    public boolean doMatch( DBMolecule molecule ) throws BioclipseException {
-        
-            XLogPDescriptor xlogp=new XLogPDescriptor();
-            try{
-                DescriptorValue res = xlogp.calculate( molecule.getAtomContainer() );
-                DoubleResult val = (DoubleResult) res.getValue();
-                return compare( val.doubleValue(), getThreshold());
-            }catch (Exception e){
-                throw new BioclipseException( "Error calculating XlogP for mol: " + molecule );
-            }
-        
+    public boolean passFilter( IMolecule molecule ) throws BioclipseException {
+
+        ICDKMolecule cdkmol = cdk.asCDKMolecule( molecule );
+
+        try{
+            DescriptorValue res = xlogp.calculate( cdkmol.getAtomContainer() );
+            DoubleResult val = (DoubleResult) res.getValue();
+            return compare( val.doubleValue(), getThreshold());
+        }catch (Exception e){
+            throw new BioclipseException( "Error calculating XlogP for mol: " + 
+                                          cdkmol);
+        }
+
     }
 
 }
