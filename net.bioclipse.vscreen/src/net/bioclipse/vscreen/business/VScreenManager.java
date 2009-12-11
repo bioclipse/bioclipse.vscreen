@@ -172,13 +172,13 @@ public class VScreenManager implements IBioclipseManager {
                 }
                 else{
                     //New DB, we need to copy the molecule to new database
-                    sdb.createMolecule( newDBname, 
+                    DBMolecule newmol = sdb.createMolecule( newDBname, 
                                         molecule.getName(), 
                                         molecule );
 
                     //Also, we need to annotate it with the filteredAnnotation
-                    sdb.annotate( newDBname, molecule, filteredAnnotation );
-                    sdb.save( newDBname, molecule );
+                    sdb.annotate( newDBname, newmol, filteredAnnotation );
+                    sdb.save( newDBname, newmol );
                 }
             }
 
