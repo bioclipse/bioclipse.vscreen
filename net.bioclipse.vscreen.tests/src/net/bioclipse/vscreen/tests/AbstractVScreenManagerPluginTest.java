@@ -31,6 +31,7 @@ import net.bioclipse.vscreen.filters.IScreeningFilter;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Platform;
 import org.junit.Before;
 import org.junit.Test;
@@ -56,7 +57,7 @@ public abstract class AbstractVScreenManagerPluginTest {
         
         //Set up and populate a StructureDB instance
         if ( sdb.allDatabaseNames().contains(TEST_DB_NAME) ) {
-            sdb.deleteDatabase(TEST_DB_NAME);
+            sdb.deleteDatabase(TEST_DB_NAME, new NullProgressMonitor());
         }
         sdb.createDatabase(TEST_DB_NAME);
         
@@ -71,7 +72,7 @@ public abstract class AbstractVScreenManagerPluginTest {
 //        String path=url.getFile();
         file = FileUtil.createLinkedFile(path );
         
-        sdb.addMoleculesFromSDF(TEST_DB_NAME, file);
+        sdb.addMoleculesFromSDF(TEST_DB_NAME, file, new NullProgressMonitor());
         
     }
     
