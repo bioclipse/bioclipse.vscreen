@@ -23,6 +23,7 @@ import net.bioclipse.structuredb.business.IJavaStructuredbManager;
 import net.bioclipse.structuredb.domain.DBMolecule;
 import net.bioclipse.structuredb.domain.TextAnnotation;
 import net.bioclipse.vscreen.filters.IDoubleFilter;
+import net.bioclipse.vscreen.filters.IParamFilter;
 import net.bioclipse.vscreen.filters.IScreeningFilter;
 
 import org.apache.log4j.Logger;
@@ -156,16 +157,21 @@ public class VScreenManager implements IBioclipseManager {
                 try {
                     if (filter.passFilter( molecule )){
                         matches++;
+                    }else{
+                        logger.debug("Molecule # " +cnt +") "+ 
+                                   " did not pass filter: " + filter.getName());   
                     }
                 } catch ( BioclipseException e ) {
                     logger.error("Filter " + filter.getName() 
-                                 + " failed for mol: " + cnt 
+                                 + " failed for molecule # " + cnt 
                                  + ". Reason: " + e.getMessage());
                 }
             }
 
             //If all filters passed, add annotation to mol
             if (matches>=matchesRequired){
+                logger.debug("Molecule: " + molecule + 
+                " passed all filters.");   
                 if (dbname==newDBname){
                     molecule.addAnnotation(filteredAnnotation);
                     sdb.updateMolecule(dbname, molecule);
@@ -179,6 +185,9 @@ public class VScreenManager implements IBioclipseManager {
                     //Also, we need to annotate it with the filteredAnnotation
                     sdb.annotate( newDBname, newmol, filteredAnnotation );
                 }
+            }else{
+             logger.debug("Molecule: " + molecule + " did not pass all filters " +
+             		"(" + matches + " failures)");   
             }
 
             monitor.worked( 1 );
@@ -186,6 +195,30 @@ public class VScreenManager implements IBioclipseManager {
         }        
     }
 
+    public IScreeningFilter createFilter(String filtername, String params) throws BioclipseException{
+        
+        filtername=filtername.toLowerCase();
+        
+        if (getFilterByName( filtername )==null)
+            throw new BioclipseException( "No filter with name: " +filtername );
+
+        //Look up and instantiate filter
+        try {
+            IScreeningFilter filter= getFilterByName(filtername);
+            if ( filter instanceof IParamFilter ) {
+                IParamFilter paramFilter = (IParamFilter) filter;
+                paramFilter.setParameters(params);
+                return paramFilter;
+            }
+        } catch ( Exception e ) {
+            throw new BioclipseException( "Error instantiating filter: " + e.getMessage() );
+        }
+
+        throw new BioclipseException( "Filter found but not supported: " 
+                                      + filtername );
+
+    }
+    
     public IScreeningFilter createFilter(String filtername, double value) 
     throws BioclipseException{
 

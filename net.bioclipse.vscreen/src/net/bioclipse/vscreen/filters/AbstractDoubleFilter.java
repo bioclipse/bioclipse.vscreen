@@ -10,6 +10,8 @@
  ******************************************************************************/
 package net.bioclipse.vscreen.filters;
 
+import net.bioclipse.core.business.BioclipseException;
+
 
 /**
  * An abstract implementation of an IDoubleFilter.
@@ -67,30 +69,56 @@ public abstract class AbstractDoubleFilter extends AbstractScreeningFilter
 
 
     public boolean compare(Comparable num1, 
-                           Comparable num2){
+                           Comparable num2) throws BioclipseException{
 
         if (operator==OPERATOR_EQ){
             if (num1.compareTo( num2 )==0)
                 return true;
+            else
+                return false;
         }
         else if (operator==OPERATOR_GRT){
             if (num1.compareTo( num2 )>0)
                 return true;
+            else
+                return false;
         }
         else if (operator==OPERATOR_GRTEQ){
             if (num1.compareTo( num2 )>=0)
                 return true;
+            else
+                return false;
         }
         else if (operator==OPERATOR_LT){
             if (num1.compareTo( num2 )<0)
                 return true;
+            else
+                return false;
         }
         else if (operator==OPERATOR_LTEQ){
             if (num1.compareTo( num2 )<=0)
                 return true;
+            else
+                return false;
         }
         
-        return false;
+        throw new BioclipseException( "Unknown operator: " + operator );
+    }
+    
+    public String operatorToString(int operator){
+
+        if (operator==OPERATOR_EQ)
+            return "=";
+        else if (operator==OPERATOR_GRT)
+            return ">";
+        else if (operator==OPERATOR_GRTEQ)
+            return ">=";
+        else if (operator==OPERATOR_LT)
+            return "<";
+        else if (operator==OPERATOR_LTEQ)
+            return "<=";
+
+        return "UNKOWN OPERATOR: " + operator;
     }
 
 }

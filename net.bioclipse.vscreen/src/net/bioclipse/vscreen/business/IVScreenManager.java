@@ -57,6 +57,12 @@ public interface IVScreenManager extends IBioclipseManager {
     throws BioclipseException;
 
     @Recorded
+    @PublishedMethod(params="String filtername, String params",
+       methodSummary = "Create a filter by name and parameters.")
+    public IScreeningFilter createFilter(String filtername, String params)
+    throws BioclipseException;
+
+    @Recorded
     @PublishedMethod(params="String filtername, String operator, double value",
        methodSummary = "Create a filter by name, operator, and threshold.")
     public IScreeningFilter createFilter(String filtername, String operator, 
