@@ -16,7 +16,7 @@ import java.util.List;
 
 import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.util.LogUtils;
-import net.bioclipse.core.util.TimeCalculater;
+import net.bioclipse.core.util.TimeCalculator;
 import net.bioclipse.managers.business.IBioclipseManager;
 import net.bioclipse.structuredb.Activator;
 import net.bioclipse.structuredb.business.IJavaStructuredbManager;
@@ -138,7 +138,7 @@ public class VScreenManager implements IBioclipseManager {
             if (cnt%10==1){
                 monitor.subTask( "Screening molecule " + cnt + " of " + noMols 
                                  + " (" 
-                                 + TimeCalculater.generateTimeRemainEst( 
+                                 + TimeCalculator.generateTimeRemainEst( 
                                                         starttime, cnt, noMols )
                                                         + ")");
             }
