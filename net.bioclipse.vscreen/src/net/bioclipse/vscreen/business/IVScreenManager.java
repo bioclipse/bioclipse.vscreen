@@ -78,6 +78,6 @@ public interface IVScreenManager extends IBioclipseManager {
     @Recorded
     @PublishedMethod(
        methodSummary = "Returns a list of available Filters.")
-    public List<String> listFilters();
+    public List<String> listFilters() throws BioclipseException;
 
 }
