@@ -62,5 +62,4 @@ public interface IScreeningFilter {
 
     void setDescription( String description );
 
-
 }
