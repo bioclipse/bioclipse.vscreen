@@ -20,6 +20,7 @@ import net.bioclipse.core.domain.IMolecule;
 import net.bioclipse.vscreen.filters.AbstractParamFilter;
 import net.bioclipse.vscreen.filters.IParamFilter;
 
+import org.apache.log4j.Logger;
 import org.openscience.cdk.interfaces.IAtom;
 
 /**
@@ -29,6 +30,8 @@ import org.openscience.cdk.interfaces.IAtom;
  */
 public class RestrictElementFilter extends AbstractParamFilter 
                                    implements IParamFilter{
+
+    private static final Logger logger = Logger.getLogger(RestrictElementFilter.class);
 
     private ICDKManager cdk;
     private List<String> allowedSymbols;
@@ -53,8 +56,11 @@ public class RestrictElementFilter extends AbstractParamFilter
         ICDKMolecule cdkmol = cdk.asCDKMolecule( molecule );
         
         for (IAtom atom : cdkmol.getAtomContainer().atoms()){
-            if (!allowedSymbols.contains( atom.getSymbol()))
+            if (!allowedSymbols.contains( atom.getSymbol())){
+                logger.debug(" Mol: + " + molecule + " contained: " 
+                             +  atom.getSymbol() + " which is not allowed.");
                 return false;
+            }
         }
         
         return true;

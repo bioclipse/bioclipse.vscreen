@@ -17,6 +17,7 @@ import net.bioclipse.core.domain.IMolecule;
 import net.bioclipse.vscreen.filters.AbstractDoubleFilter;
 import net.bioclipse.vscreen.filters.IDoubleFilter;
 
+import org.apache.log4j.Logger;
 import org.openscience.cdk.qsar.DescriptorValue;
 import org.openscience.cdk.qsar.descriptors.molecular.RuleOfFiveDescriptor;
 import org.openscience.cdk.qsar.result.DoubleResult;
@@ -29,6 +30,8 @@ import org.openscience.cdk.qsar.result.IntegerResult;
  */
 public class RuleOfFiveFilter extends AbstractDoubleFilter implements IDoubleFilter{
 
+    private static final Logger logger = Logger.getLogger(RuleOfFiveFilter.class);
+    
     private ICDKManager cdk;
     private RuleOfFiveDescriptor ro5;
 
@@ -53,7 +56,11 @@ public class RuleOfFiveFilter extends AbstractDoubleFilter implements IDoubleFil
         try{
             DescriptorValue res = ro5.calculate( cdkmol.getAtomContainer() );
             IntegerResult val = (IntegerResult) res.getValue();
-            return compare( val.intValue(), (int)getThreshold());
+            boolean result=compare( val.intValue(), (int)getThreshold());
+            logger.debug(" Mol: + " + molecule + " has " + getName() + "=" + val + 
+                         " Required: " + operatorToString( getOperator()) + 
+                         ""+ getThreshold() + " PASS=" + result );
+            return result;
         }catch (Exception e){
             e.printStackTrace();
             throw new BioclipseException( e.getMessage());
