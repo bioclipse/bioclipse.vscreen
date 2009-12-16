@@ -107,7 +107,7 @@ public abstract class AbstractVScreenManagerPluginTest {
 
         //Screen with filter and assert results
         vscreen.filter(TEST_DB_NAME, filters, "filterXLOGP2", "xlogp2" );
-        assertEquals(1, sdb.numberOfMoleculesInDatabaseInstance( "filterXLOGP2" ));
+        assertEquals(2, sdb.numberOfMoleculesInDatabaseInstance( "filterXLOGP2" ));
 
     }
     
@@ -134,7 +134,7 @@ public abstract class AbstractVScreenManagerPluginTest {
 
         //Screen with filter and assert results
         vscreen.filter(TEST_DB_NAME, filters, "filterMW2", "xlogpMW2" );
-        assertEquals(1, sdb.numberOfMoleculesInDatabaseInstance( "filterMW2" ));
+        assertEquals(2, sdb.numberOfMoleculesInDatabaseInstance( "filterMW2" ));
 
     }
     
@@ -179,14 +179,14 @@ public abstract class AbstractVScreenManagerPluginTest {
 
         //Screen with filter and assert results
         vscreen.filter(TEST_DB_NAME, filters, "filterRuleOfFive", "RuleOfFive" );
-        assertEquals(4, sdb.numberOfMoleculesInDatabaseInstance( "filterRuleOfFive" ));
+        assertEquals(5, sdb.numberOfMoleculesInDatabaseInstance( "filterRuleOfFive" ));
 
         //Add another filter, no failures now required
         filters.add(vscreen.createFilter("RuleOfFive", "=" , 0));
 
         //Screen with filter and assert results
         vscreen.filter(TEST_DB_NAME, filters, "filterRuleOfFive2", "RuleOfFive2" );
-        assertEquals(1, sdb.numberOfMoleculesInDatabaseInstance( "filterRuleOfFive2" ));
+        assertEquals(5, sdb.numberOfMoleculesInDatabaseInstance( "filterRuleOfFive2" ));
 
     }
  
@@ -203,15 +203,15 @@ public abstract class AbstractVScreenManagerPluginTest {
         filters.add(vscreen.createFilter("restrictElement", "C,N,O,Cl,S,F"));
 
         //Screen with filter and assert results
-        vscreen.filter(TEST_DB_NAME, filters, "filterElement", "element" );
-        assertEquals(4, sdb.numberOfMoleculesInDatabaseInstance( "filterElement" ));
+        vscreen.filter(TEST_DB_NAME, filters, "filterSMARTS", "SMARTS" );
+        assertEquals(5, sdb.numberOfMoleculesInDatabaseInstance( "filterSMARTS" ));
 
         //Add another filters
         filters.add(vscreen.createFilter("restrictElement", "C,N,O"));
 
         //Screen with filter and assert results
-        vscreen.filter(TEST_DB_NAME, filters, "filterElement2", "element2" );
-        assertEquals(1, sdb.numberOfMoleculesInDatabaseInstance( "filterElement2" ));
+        vscreen.filter(TEST_DB_NAME, filters, "filterSMARTS2", "SMARTS2" );
+        assertEquals(0, sdb.numberOfMoleculesInDatabaseInstance( "filterSMARTS2" ));
 
     }
 
@@ -231,14 +231,14 @@ public abstract class AbstractVScreenManagerPluginTest {
 
         //Screen with filter and assert results
         vscreen.filter(TEST_DB_NAME, filters, "filterRingCount", "RingCount" );
-        assertEquals(4, sdb.numberOfMoleculesInDatabaseInstance( "filterRingCount" ));
+        assertEquals(5, sdb.numberOfMoleculesInDatabaseInstance( "filterRingCount" ));
 
         //Add another filter, no failures now required
         filters.add(vscreen.createFilter("RingCount"    , ">=" , 2));
 
         //Screen with filter and assert results
         vscreen.filter(TEST_DB_NAME, filters, "filterRingCount2", "RingCount2" );
-        assertEquals(1, sdb.numberOfMoleculesInDatabaseInstance( "filterRingCount2" ));
+        assertEquals(4, sdb.numberOfMoleculesInDatabaseInstance( "filterRingCount2" ));
 
     }
 
@@ -258,14 +258,14 @@ public abstract class AbstractVScreenManagerPluginTest {
 
         //Screen with filter and assert results
         vscreen.filter(TEST_DB_NAME, filters, "filterTPSA", "TPSA" );
-        assertEquals(3, sdb.numberOfMoleculesInDatabaseInstance( "filterTPSA" ));
+        assertEquals(5, sdb.numberOfMoleculesInDatabaseInstance( "filterTPSA" ));
 
         //Add another filter, no failures now required
         filters.add(vscreen.createFilter("TPSA"    , ">" , 80));
 
         //Screen with filter and assert results
         vscreen.filter(TEST_DB_NAME, filters, "filterTPSA", "TPSA" );
-        assertEquals(2, sdb.numberOfMoleculesInDatabaseInstance( "filterTPSA" ));
+        assertEquals(5, sdb.numberOfMoleculesInDatabaseInstance( "filterTPSA" ));
 
     }
 
