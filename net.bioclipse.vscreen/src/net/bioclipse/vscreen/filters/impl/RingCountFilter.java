@@ -17,6 +17,7 @@ import net.bioclipse.core.domain.IMolecule;
 import net.bioclipse.vscreen.filters.AbstractDoubleFilter;
 import net.bioclipse.vscreen.filters.IDoubleFilter;
 
+import org.apache.log4j.Logger;
 import org.openscience.cdk.interfaces.IRingSet;
 import org.openscience.cdk.ringsearch.SSSRFinder;
 
@@ -26,6 +27,8 @@ import org.openscience.cdk.ringsearch.SSSRFinder;
  *
  */
 public class RingCountFilter extends AbstractDoubleFilter implements IDoubleFilter{
+
+    private static final Logger logger = Logger.getLogger(RingCountFilter.class);
 
     private ICDKManager cdk;
 
@@ -47,9 +50,13 @@ public class RingCountFilter extends AbstractDoubleFilter implements IDoubleFilt
         ICDKMolecule cdkmol = cdk.asCDKMolecule( molecule );
         SSSRFinder sssrf = new SSSRFinder(cdkmol.getAtomContainer());
         IRingSet sssr = sssrf.findSSSR();
-        int rings=sssr.getAtomContainerCount();
-        return compare( rings, (int)getThreshold());
-
+        int val=sssr.getAtomContainerCount();
+        
+        boolean result=compare( val, (int)getThreshold());
+        logger.debug(" Mol: + " + molecule + " has " + getName() + "=" + val + 
+                     " Required: " + operatorToString( getOperator()) + 
+                     ""+ getThreshold() + " PASS=" + result );
+        return result;
     }
 
 }

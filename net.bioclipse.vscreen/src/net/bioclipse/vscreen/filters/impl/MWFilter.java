@@ -10,6 +10,8 @@
  ******************************************************************************/
 package net.bioclipse.vscreen.filters.impl;
 
+import org.apache.log4j.Logger;
+
 import net.bioclipse.cdk.business.ICDKManager;
 import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.domain.IMolecule;
@@ -26,6 +28,8 @@ import net.bioclipse.vscreen.filters.IDoubleFilter;
  */
 public class MWFilter extends AbstractDoubleFilter implements IDoubleFilter{
 
+    private static final Logger logger = Logger.getLogger(MWFilter.class);
+
     private ICDKManager cdk;
 
     /**
@@ -40,7 +44,12 @@ public class MWFilter extends AbstractDoubleFilter implements IDoubleFilter{
      * Filter out molecules base on molecular weight,
      */
     public boolean passFilter( IMolecule molecule ) throws BioclipseException {
-        return compare( cdk.calculateMass( molecule), getThreshold());
+        double val = cdk.calculateMass( molecule);
+        boolean result=compare( val, getThreshold());
+        logger.debug(" Mol: + " + molecule + " has " + getName() + "=" + val + 
+                     " Required: " + operatorToString( getOperator()) + 
+                     ""+ getThreshold() + " PASS=" + result );
+       return result;
     }
 
 }

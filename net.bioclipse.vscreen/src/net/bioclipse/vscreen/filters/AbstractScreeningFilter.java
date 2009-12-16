@@ -98,6 +98,5 @@ public abstract class AbstractScreeningFilter implements IScreeningFilter{
     
         this.description = description;
     }
-
     
 }

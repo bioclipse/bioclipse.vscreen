@@ -63,7 +63,7 @@ public class XlogPFilter extends AbstractDoubleFilter implements IDoubleFilter{
             DescriptorValue res = xlogp.calculate( cdkmol.getAtomContainer() );
             DoubleResult val = (DoubleResult) res.getValue();
             boolean result=compare( val.doubleValue(), getThreshold());
-            if (!result)
+//            if (!result)
             logger.debug(" Mol: + " + cdkmol + " has " + getName() + "=" + val + 
                          " Required: " + operatorToString( getOperator()) + 
                          ""+ getThreshold() + " PASS=" + result );

@@ -13,6 +13,8 @@ package net.bioclipse.vscreen.filters.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import net.bioclipse.cdk.business.ICDKManager;
 import net.bioclipse.cdk.domain.ICDKMolecule;
 import net.bioclipse.core.business.BioclipseException;
@@ -27,6 +29,8 @@ import net.bioclipse.vscreen.filters.IParamFilter;
  */
 public class SMARTSFilter extends AbstractParamFilter 
                                    implements IParamFilter{
+
+    private static final Logger logger = Logger.getLogger(SMARTSFilter.class);
 
     private ICDKManager cdk;
     private List<String> smarts;

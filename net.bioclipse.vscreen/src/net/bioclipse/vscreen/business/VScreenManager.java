@@ -48,7 +48,7 @@ public class VScreenManager implements IBioclipseManager {
     /**
      * List of screening filters as read from Extension Point
      */
-    private List<IScreeningFilter> screeningFilters;
+    private List<String> screeningFilters;
     
     /**
      * Gives a short one word name of the manager used as variable name when
@@ -96,6 +96,25 @@ public class VScreenManager implements IBioclipseManager {
                        String newDBname, String label, 
                        IProgressMonitor monitor) throws BioclipseException{
 
+        if (filters==null || filters.size()<=0)
+            throw new BioclipseException( "No filters provided to vscreen." );
+        
+        //Output the selected filters for debugging purposes
+        logger.debug("Filters included: ");
+        for (IScreeningFilter filter : filters){
+            String f=filter.getName();
+            if ( filter instanceof IDoubleFilter ) {
+                IDoubleFilter df = (IDoubleFilter) filter;
+                f=f+ " [op=" + df.getOperator() + " ; thr=" + df.getThreshold() 
+                + "]";
+            }
+            if ( filter instanceof IParamFilter ) {
+                IParamFilter pf = (IParamFilter) filter;
+                f=f+ " [params=" + pf.getParameters() + "]";
+            }
+            logger.debug(f);
+        }
+
         //Get managers we need
      IJavaStructuredbManager sdb=Activator.getDefault().getStructuredbManager();
         
@@ -139,7 +158,7 @@ public class VScreenManager implements IBioclipseManager {
                 monitor.subTask( "Screening molecule " + cnt + " of " + noMols 
                                  + " (" 
                                  + TimeCalculator.generateTimeRemainEst( 
-                                                        starttime, cnt, noMols )
+                                                        starttime, cnt, noMols)
                                                         + ")");
             }
 
@@ -186,8 +205,8 @@ public class VScreenManager implements IBioclipseManager {
                     sdb.annotate( newDBname, newmol, filteredAnnotation );
                 }
             }else{
-             logger.debug("Molecule: " + molecule + " did not pass all filters " +
-             		"(" + matches + " failures)");   
+             logger.debug("Molecule: " + molecule + " did not pass all " +
+             		"filters " + "(" + matches + " failures)");   
             }
 
             monitor.worked( 1 );
@@ -195,23 +214,28 @@ public class VScreenManager implements IBioclipseManager {
         }        
     }
 
-    public IScreeningFilter createFilter(String filtername, String params) throws BioclipseException{
+    public IScreeningFilter createFilter(String filtername, String params) 
+    throws BioclipseException{
         
         filtername=filtername.toLowerCase();
         
-        if (getFilterByName( filtername )==null)
+        if (!existsFilter( filtername ))
             throw new BioclipseException( "No filter with name: " +filtername );
 
         //Look up and instantiate filter
         try {
-            IScreeningFilter filter= getFilterByName(filtername);
+            IScreeningFilter filter = newFilter( filtername );
             if ( filter instanceof IParamFilter ) {
                 IParamFilter paramFilter = (IParamFilter) filter;
                 paramFilter.setParameters(params);
                 return paramFilter;
+            }else{
+                logger.debug("A non-IParamFilter was given " +
+                    "params as input.");
             }
         } catch ( Exception e ) {
-            throw new BioclipseException( "Error instantiating filter: " + e.getMessage() );
+            throw new BioclipseException( "Error instantiating filter: " 
+                                          + e.getMessage() );
         }
 
         throw new BioclipseException( "Filter found but not supported: " 
@@ -231,21 +255,25 @@ public class VScreenManager implements IBioclipseManager {
         
         filtername=filtername.toLowerCase();
         
-        if (getFilterByName( filtername )==null)
+        if (!existsFilter( filtername ))
             throw new BioclipseException( "No filter with name: " +filtername );
 
         //Look up and instantiate filter
         IScreeningFilter filter;
         try {
-            filter = getFilterByName(filtername);
+            filter = newFilter( filtername );
             if ( filter instanceof IDoubleFilter ) {
                 IDoubleFilter df= (IDoubleFilter) filter;
                 df.setOperator( operator );
                 df.setThreshold( threshold );
                 return df;
+            }else{
+                logger.debug("A non-IDoubleFilter was given operator and " +
+                		"threshold as input.");
             }
         } catch ( Exception e ) {
-            throw new BioclipseException( "Error instantiating filter: " + e.getMessage() );
+            throw new BioclipseException( "Error instantiating filter: " 
+                                          + e.getMessage() );
         }
 
         throw new BioclipseException( "Filter found but not supported: " 
@@ -253,42 +281,38 @@ public class VScreenManager implements IBioclipseManager {
         
     }
 
-    private IScreeningFilter getFilterByName( String filtername ) 
-    throws BioclipseException {
-        for (IScreeningFilter filter : getFilterMap()){
-            if (filter.getName().equalsIgnoreCase( filtername ))
-                return filter;
-        }
-        return null;
-    }
-
-
+    /**
+     * Return a list of names of available filters.
+     * @return
+     * @throws BioclipseException
+     */
     public List<String> listFilters() throws BioclipseException{
-        List<String> ret= new ArrayList<String>();
-        for (IScreeningFilter filter : getFilterMap()){
-            ret.add(filter.getName());
-        }
-        return ret;
+        if (screeningFilters==null) initializeFilters();
+        return screeningFilters;
     }
+
+
 
     /**
-     * Get map of available filters. If null, initialize from EP.
-     * @return
-     * @throws BioclipseException 
+     * 
+     * @param filterName Name of filter to create
+     * @return a new filter with name filterName
+     * @throws BioclipseException if no filter with filterName exists or if 
+     * creation fails
      */
-    private List<IScreeningFilter> getFilterMap() throws BioclipseException {
+    private IScreeningFilter newFilter(String filterName) 
+    throws BioclipseException {
 
-        if (screeningFilters!=null) return screeningFilters;
+        if (!existsFilter(filterName))
+            throw new BioclipseException( "No filter wih name: " + filterName );
 
+        //Read EP
         IExtensionRegistry registry = Platform.getExtensionRegistry();
 
         if ( registry == null ) throw new BioclipseException(
                 "Eclipse registry=null. Cannot get screeningfilters from EPs.");
         // it likely means that the Eclipse workbench has not
         // started, for example when running non plugin-tests
-
-        //Store filters here
-        screeningFilters = new ArrayList<IScreeningFilter>();
 
         IExtensionPoint serviceObjectExtensionPoint = registry
         .getExtensionPoint("net.bioclipse.vscreen.filter");
@@ -302,36 +326,91 @@ public class VScreenManager implements IBioclipseManager {
 
                 if (element.getName().equals("screeningFilter")){
 
-                    String pid=element.getAttribute("id");
                     String pname=element.getAttribute("name");
-                    String picon=element.getAttribute("icon");
-                    String pdescription=element.getAttribute("description");
-                    String pluginID=element.getNamespaceIdentifier();
+                    
+                    if (pname.equalsIgnoreCase( filterName )){
+                        //This is what we ask for
+                        String pid=element.getAttribute("id");
+                        String picon=element.getAttribute("icon");
+                        String pdescription=element.getAttribute("description");
+                        String pluginID=element.getNamespaceIdentifier();
 
+                        Object obj;
+                        try {
+                            obj = element.createExecutableExtension("class");
+                            IScreeningFilter filter = (IScreeningFilter) obj;
+                            filter.setId( pid );
+                            filter.setName(  pname );
+                            filter.setIconpath( picon );
+                            filter.setDescription( pdescription );
+                            filter.setPlugin( pluginID );
 
-                    Object obj;
-                    try {
-                        obj = element.createExecutableExtension("class");
-                        IScreeningFilter filter = (IScreeningFilter) obj;
-                        filter.setId( pid );
-                        filter.setName(  pname );
-                        filter.setIconpath( picon );
-                        filter.setDescription( pdescription );
-                        filter.setPlugin( pluginID );
-
-                        screeningFilters.add( filter );
-                    } catch ( CoreException e ) {
-                        LogUtils.handleException( e, logger, 
+                            return filter;
+                        } catch ( CoreException e ) {
+                            LogUtils.handleException( e, logger, 
                                     net.bioclipse.vscreen.Activator.PLUGIN_ID );
+                        }
                     }
                 }
             }
         }
 
-        return screeningFilters;
+        throw new BioclipseException( "Could not find filter named " 
+                                      + filterName );
 
     }
 
 
+    /**
+     * 
+     * @param filterName Name of filter to check existence for
+     * @return true if s screeningfilter with filterName exists.
+     * @throws BioclipseException
+     */
+    private boolean existsFilter( String filterName ) throws BioclipseException{
+        
+        if (screeningFilters==null) initializeFilters();
+        if (screeningFilters==null) 
+               throw new BioclipseException( "No screeningfilters available." );
+
+         return screeningFilters.contains( filterName.toLowerCase() );
+    }
+
+
+    /**
+     * Create a list of names for the available filters
+     * @throws BioclipseException
+     */
+    private void initializeFilters() throws BioclipseException {
+
+        screeningFilters=new ArrayList<String>();
+        
+        //Read EP
+        IExtensionRegistry registry = Platform.getExtensionRegistry();
+
+        if ( registry == null ) throw new BioclipseException(
+                "Eclipse registry=null. Cannot get screeningfilters from EPs.");
+        // it likely means that the Eclipse workbench has not
+        // started, for example when running non plugin-tests
+
+        IExtensionPoint serviceObjectExtensionPoint = registry
+        .getExtensionPoint("net.bioclipse.vscreen.filter");
+
+        IExtension[] serviceObjectExtensions
+        = serviceObjectExtensionPoint.getExtensions();
+
+        for(IExtension extension : serviceObjectExtensions) {
+            for( IConfigurationElement element
+                    : extension.getConfigurationElements() ) {
+
+                if (element.getName().equals("screeningFilter")){
+
+                    if (element.getAttribute("name")!=null)
+                        screeningFilters.add(element.getAttribute("name")
+                                             .toLowerCase());
+                }
+            }
+        }
+    }
 
 }

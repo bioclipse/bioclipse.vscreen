@@ -30,5 +30,4 @@ public abstract class AbstractParamFilter extends AbstractScreeningFilter
         this.parameters = parameters;
     }
 
-    
 }

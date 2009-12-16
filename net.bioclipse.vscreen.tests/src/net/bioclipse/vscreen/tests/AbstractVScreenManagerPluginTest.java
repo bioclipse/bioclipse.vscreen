@@ -96,7 +96,7 @@ public abstract class AbstractVScreenManagerPluginTest {
         
         //Add some filters
         List<IScreeningFilter>filters = new ArrayList<IScreeningFilter>();
-        filters.add(vscreen.createFilter("XlogP" , "<" , 2));
+        filters.add(vscreen.createFilter("XlogP" , "<" , 3));
 
         //Screen with filter and assert results
         vscreen.filter(TEST_DB_NAME, filters, "filterXLOGP", "xlogp" );
@@ -107,14 +107,14 @@ public abstract class AbstractVScreenManagerPluginTest {
 
         //Screen with filter and assert results
         vscreen.filter(TEST_DB_NAME, filters, "filterXLOGP2", "xlogp2" );
-        assertEquals(4, sdb.numberOfMoleculesInDatabaseInstance( "filterXLOGP2" ));
+        assertEquals(2, sdb.numberOfMoleculesInDatabaseInstance( "filterXLOGP2" ));
 
     }
     
     
 
     @Test
-    public void testMWPFilter() throws BioclipseException {
+    public void testMWFilter() throws BioclipseException {
         
         sdb = Activator.getDefault().getStructuredbManager();
 
@@ -123,18 +123,18 @@ public abstract class AbstractVScreenManagerPluginTest {
         
         //Add some filters
         List<IScreeningFilter>filters = new ArrayList<IScreeningFilter>();
-        filters.add(vscreen.createFilter("MW" , "<" , 250));
+        filters.add(vscreen.createFilter("MW" , "<" , 290));
 
         //Screen with filter and assert results
         vscreen.filter(TEST_DB_NAME, filters, "filterMW", "mw" );
         assertEquals(3, sdb.numberOfMoleculesInDatabaseInstance( "filterMW" ));
 
         //Add another filters
-        filters.add(vscreen.createFilter("MW" , ">" , 150));
+        filters.add(vscreen.createFilter("MW" , ">" , 240));
 
         //Screen with filter and assert results
         vscreen.filter(TEST_DB_NAME, filters, "filterMW2", "xlogpMW2" );
-        assertEquals(4, sdb.numberOfMoleculesInDatabaseInstance( "filterMW2" ));
+        assertEquals(2, sdb.numberOfMoleculesInDatabaseInstance( "filterMW2" ));
 
     }
     
@@ -148,18 +148,18 @@ public abstract class AbstractVScreenManagerPluginTest {
         
         //Add some filters
         List<IScreeningFilter>filters = new ArrayList<IScreeningFilter>();
-        filters.add(vscreen.createFilter("restrictElement", "C,N,O,Cl,S,F"));
+        filters.add(vscreen.createFilter("restrictElement", "C,N,O,Cl,S"));
 
         //Screen with filter and assert results
         vscreen.filter(TEST_DB_NAME, filters, "filterElement", "element" );
-        assertEquals(4, sdb.numberOfMoleculesInDatabaseInstance( "filterElement" ));
+        assertEquals(5, sdb.numberOfMoleculesInDatabaseInstance( "filterElement" ));
 
         //Add another filters
-        filters.add(vscreen.createFilter("restrictElement", "C,N,O"));
+        filters.add(vscreen.createFilter("restrictElement", "C,N,O,S"));
 
         //Screen with filter and assert results
         vscreen.filter(TEST_DB_NAME, filters, "filterElement2", "element2" );
-        assertEquals(1, sdb.numberOfMoleculesInDatabaseInstance( "filterElement2" ));
+        assertEquals(3, sdb.numberOfMoleculesInDatabaseInstance( "filterElement2" ));
 
     }
     
@@ -179,16 +179,94 @@ public abstract class AbstractVScreenManagerPluginTest {
 
         //Screen with filter and assert results
         vscreen.filter(TEST_DB_NAME, filters, "filterRuleOfFive", "RuleOfFive" );
-        assertEquals(4, sdb.numberOfMoleculesInDatabaseInstance( "filterRuleOfFive" ));
+        assertEquals(5, sdb.numberOfMoleculesInDatabaseInstance( "filterRuleOfFive" ));
 
         //Add another filter, no failures now required
         filters.add(vscreen.createFilter("RuleOfFive", "=" , 0));
 
         //Screen with filter and assert results
         vscreen.filter(TEST_DB_NAME, filters, "filterRuleOfFive2", "RuleOfFive2" );
-        assertEquals(1, sdb.numberOfMoleculesInDatabaseInstance( "filterRuleOfFive2" ));
+        assertEquals(5, sdb.numberOfMoleculesInDatabaseInstance( "filterRuleOfFive2" ));
 
     }
-    
-    
+ 
+    @Test
+    public void testSMARTSFilter() throws BioclipseException {
+        
+        sdb = Activator.getDefault().getStructuredbManager();
+
+        int nomols=sdb.numberOfMoleculesInDatabaseInstance( TEST_DB_NAME );
+        assertEquals("Incorrect number of mols in TEST DB.", 5, nomols );
+        
+        //Add some filters
+        List<IScreeningFilter>filters = new ArrayList<IScreeningFilter>();
+        filters.add(vscreen.createFilter("restrictElement", "C,N,O,Cl,S,F"));
+
+        //Screen with filter and assert results
+        vscreen.filter(TEST_DB_NAME, filters, "filterSMARTS", "SMARTS" );
+        assertEquals(5, sdb.numberOfMoleculesInDatabaseInstance( "filterSMARTS" ));
+
+        //Add another filters
+        filters.add(vscreen.createFilter("restrictElement", "C,N,O"));
+
+        //Screen with filter and assert results
+        vscreen.filter(TEST_DB_NAME, filters, "filterSMARTS2", "SMARTS2" );
+        assertEquals(0, sdb.numberOfMoleculesInDatabaseInstance( "filterSMARTS2" ));
+
+    }
+
+    @Test
+    public void testRingCountFilter() throws BioclipseException {
+        
+        sdb = Activator.getDefault().getStructuredbManager();
+
+        int nomols=sdb.numberOfMoleculesInDatabaseInstance( TEST_DB_NAME );
+        assertEquals("Incorrect number of mols in TEST DB.", 5, nomols );
+        
+        //Add some filters
+        List<IScreeningFilter>filters = new ArrayList<IScreeningFilter>();
+        
+        //Should have less than 2 failures
+        filters.add(vscreen.createFilter("RingCount"    , ">=" , 1));
+
+        //Screen with filter and assert results
+        vscreen.filter(TEST_DB_NAME, filters, "filterRingCount", "RingCount" );
+        assertEquals(5, sdb.numberOfMoleculesInDatabaseInstance( "filterRingCount" ));
+
+        //Add another filter, no failures now required
+        filters.add(vscreen.createFilter("RingCount"    , ">=" , 2));
+
+        //Screen with filter and assert results
+        vscreen.filter(TEST_DB_NAME, filters, "filterRingCount2", "RingCount2" );
+        assertEquals(4, sdb.numberOfMoleculesInDatabaseInstance( "filterRingCount2" ));
+
+    }
+
+    @Test
+    public void testTPSA() throws BioclipseException {
+        
+        sdb = Activator.getDefault().getStructuredbManager();
+
+        int nomols=sdb.numberOfMoleculesInDatabaseInstance( TEST_DB_NAME );
+        assertEquals("Incorrect number of mols in TEST DB.", 5, nomols );
+        
+        //Add some filters
+        List<IScreeningFilter>filters = new ArrayList<IScreeningFilter>();
+        
+        //Should have less than 2 failures
+        filters.add(vscreen.createFilter("TPSA"    , "<" , 100));
+
+        //Screen with filter and assert results
+        vscreen.filter(TEST_DB_NAME, filters, "filterTPSA", "TPSA" );
+        assertEquals(5, sdb.numberOfMoleculesInDatabaseInstance( "filterTPSA" ));
+
+        //Add another filter, no failures now required
+        filters.add(vscreen.createFilter("TPSA"    , ">" , 80));
+
+        //Screen with filter and assert results
+        vscreen.filter(TEST_DB_NAME, filters, "filterTPSA", "TPSA" );
+        assertEquals(5, sdb.numberOfMoleculesInDatabaseInstance( "filterTPSA" ));
+
+    }
+
 }
