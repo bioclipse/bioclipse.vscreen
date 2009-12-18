@@ -56,6 +56,13 @@ public interface IVScreenManager extends IBioclipseManager {
                        String newDBname, String label)
     throws BioclipseException;
 
+    /**
+     * Used for testing only.
+     */
+    public void filter(String dbname, List<IScreeningFilter> filters, 
+                       String newDBname, String label, 
+                       IProgressMonitor monitor);
+
     @Recorded
     @PublishedMethod(params="String filtername, String params",
        methodSummary = "Create a filter by name and parameters.")
