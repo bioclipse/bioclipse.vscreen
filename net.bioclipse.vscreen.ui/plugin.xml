@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            default="true"
+            class="net.bioclipse.vscreen.ui.editors.VScreenEditor"
+            id="net.bioclipse.vscreen.ui.vscrenEditor"
+            name="VScreen">
+         <contentTypeBinding 
+            contentTypeId="net.bioclipse.vscreen.contenttype" />
+      </editor>
+   </extension>
+   <extension
+         point="org.eclipse.core.contenttype.contentTypes">
+         <content-type
+               id="net.bioclipse.vscreen.contenttype"
+               name="Vscreen"
+               file-extensions="vsc"
+               priority="normal">
+         </content-type>
+   </extension>
+
+</plugin>
