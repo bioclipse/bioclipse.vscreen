@@ -21,5 +21,14 @@
                priority="normal">
          </content-type>
    </extension>
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            class="net.bioclipse.vscreen.ui.PerspectiveFactory"
+            icon="icons/search_16.png"
+            id="net.bioclipse.vscreen.ui.perspective"
+            name="VScreen">
+      </perspective>
+   </extension>
 
 </plugin>
