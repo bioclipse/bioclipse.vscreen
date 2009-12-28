@@ -201,14 +201,14 @@ public abstract class AbstractVScreenManagerPluginTest {
         
         //Add some filters
         List<IScreeningFilter>filters = new ArrayList<IScreeningFilter>();
-        filters.add(vscreen.createFilter("restrictElement", "C,N,O,Cl,S,F"));
+        filters.add(vscreen.createFilter("smarts", "C,N,O,Cl,S,F"));
 
         //Screen with filter and assert results
         vscreen.filter(TEST_DB_NAME, filters, "filterSMARTS", "SMARTS" , new NullProgressMonitor());
         assertEquals(5, sdb.numberOfMoleculesInDatabaseInstance( "filterSMARTS" ));
 
         //Add another filters
-        filters.add(vscreen.createFilter("restrictElement", "C,N,O"));
+        filters.add(vscreen.createFilter("smarts", "C,N,O"));
 
         //Screen with filter and assert results
         vscreen.filter(TEST_DB_NAME, filters, "filterSMARTS2", "SMARTS2" , new NullProgressMonitor());
