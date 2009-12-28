@@ -10,14 +10,22 @@
  ******************************************************************************/
 package net.bioclipse.vscreen.business;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.util.LogUtils;
+import net.bioclipse.core.util.StringInput;
+import net.bioclipse.core.util.StringStorage;
 import net.bioclipse.core.util.TimeCalculator;
 import net.bioclipse.managers.business.IBioclipseManager;
+import net.bioclipse.scripting.ui.business.IJsConsoleManager;
 import net.bioclipse.structuredb.Activator;
 import net.bioclipse.structuredb.business.IJavaStructuredbManager;
 import net.bioclipse.structuredb.domain.DBMolecule;
@@ -27,6 +35,7 @@ import net.bioclipse.vscreen.filters.IParamFilter;
 import net.bioclipse.vscreen.filters.IScreeningFilter;
 
 import org.apache.log4j.Logger;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
@@ -35,6 +44,11 @@ import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IFileEditorInput;
+import org.eclipse.ui.PlatformUI;
 
 /**
  * 
@@ -411,6 +425,77 @@ public class VScreenManager implements IBioclipseManager {
                 }
             }
         }
+    }
+    
+    /**
+     * Execute the open editor if based on file or String input.
+     * Should probably be moved to scripting.ui when harmonizing scripting.
+     * 
+     * @throws BioclipseException
+     * @throws CoreException
+     * @throws IOException
+     */
+    public void run() throws BioclipseException, CoreException, IOException{
+        
+        final StringBuffer buf=new StringBuffer();
+
+        Display.getDefault().syncExec( new Runnable() {
+
+            public void run() {
+
+                IEditorPart editor = PlatformUI.getWorkbench()
+                .getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+//                if (editor==null) throw new BioclipseException( "No editor open." );
+
+
+                IEditorInput input = editor.getEditorInput();
+                InputStream is=null;
+                if ( input instanceof IFileEditorInput ) {
+                    IFile file=((IFileEditorInput)input).getFile();
+                    try {
+                        is=file.getContents();
+                    } catch ( CoreException e ) {
+                        e.printStackTrace();
+                    }
+                }
+                else if (input instanceof StringInput ) {
+                    StringStorage st=(StringStorage) ((StringInput)input).getStorage();
+                    try {
+                        is=st.getContents();
+                    } catch ( CoreException e ) {
+                        e.printStackTrace();
+                    }
+                }
+                else{
+                    return;
+ //                   throw new BioclipseException( "The open editor is not supported." );
+                }
+                
+                //Read IS into String
+                BufferedReader br=new BufferedReader( new InputStreamReader( is ));
+                String line;
+                try {
+                    line = br.readLine();
+                    while (line!=null){
+                        buf.append( line + "\n");
+                        line = br.readLine();
+                    }
+                } catch ( IOException e ) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        });
+        
+        
+        
+        String contents=buf.toString();
+        if (contents==null) throw new BioclipseException("Editor is empty.");
+        
+        IJsConsoleManager js=net.bioclipse.scripting.ui.Activator.getDefault()
+        .getJavaJsConsoleManager();
+        
+        js.eval( contents );
     }
 
 }
