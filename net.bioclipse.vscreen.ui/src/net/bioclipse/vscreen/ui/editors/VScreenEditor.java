@@ -1,8 +1,12 @@
 package net.bioclipse.vscreen.ui.editors;
 
+import java.io.InputStream;
+
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ColumnViewerToolTipSupport;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TreeViewer;
@@ -10,6 +14,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IFileEditorInput;
@@ -71,12 +76,60 @@ public class VScreenEditor extends EditorPart{
         if ( input instanceof IFileEditorInput ) {
             IFileEditorInput finput = (IFileEditorInput) input;
             IFile file=finput.getFile();
-            
             logger.debug("File to parse: " + file.getFullPath());
+            try {
+                VScreenEditorModel model = parseFile(file.getContents());
+            } catch ( CoreException e ) {
+                logger.error(e.getStackTrace());
+                showError("Could not parse file: " + file + "\n\n" + e.getMessage());
+                closeEditor();
+            }
             
             //TODO Parse file into model. XOM?
         }
     }
+
+
+
+
+    /**
+     * Parse editor file into a vscreen editor model
+     * @param contents
+     * @return
+     */
+    private VScreenEditorModel parseFile( InputStream contents ) {
+
+        //TODO: Implement parse into model
+        return null;
+    }
+
+    private void showError( String message ) {
+
+        MessageDialog.openError( 
+                                viewer.getControl().getShell(),
+                                "VScreen error",
+                                message);
+    }
+    
+    private void showMessage(String message) {
+        MessageDialog.openInformation(
+                                      viewer.getControl().getShell(),
+                                      "Vscreen",
+                                      message);
+    }
+
+
+    private void closeEditor() {
+
+        Display.getDefault().asyncExec( new Runnable() {
+            public void run() {
+                getSite().getPage().closeEditor(VScreenEditor.this, true );
+            }
+        });
+        
+    }
+
+
 
     @Override
     public boolean isDirty() {
