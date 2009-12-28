@@ -121,4 +121,15 @@ public abstract class AbstractDoubleFilter extends AbstractScreeningFilter
         return "UNKOWN OPERATOR: " + operator;
     }
 
+    public String toXML(){
+        String ret=" <filter type='" + getName() + "'>\n" +
+        "    <parameter name='operator' value='"+getOperator() +"'>\n" +
+        "    <parameter name='threshold' value='"+getThreshold() +"'>\n" +
+        "</filter>\n";
+        return ret;
+    }
+    
+    public void fromXML(String xml){
+        //TODO
+    }
 }

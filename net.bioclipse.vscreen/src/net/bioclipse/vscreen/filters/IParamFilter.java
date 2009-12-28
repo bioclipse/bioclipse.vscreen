@@ -10,13 +10,18 @@
  ******************************************************************************/
 package net.bioclipse.vscreen.filters;
 
+import java.util.List;
+
 /**
  * An IParamFilter can take a String as input parameter
  * @author ola
  */
 public interface IParamFilter extends IScreeningFilter{
 
-    public void setParameters(String params);
-    public String getParameters();
+    public void setParameterString(String params);
+    public String getParameterString();
+
+    public List<String> getParameters();
+    public void setParameterss( List<String> params );
 
 }

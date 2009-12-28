@@ -110,7 +110,7 @@ public class VScreenManager implements IBioclipseManager {
             }
             if ( filter instanceof IParamFilter ) {
                 IParamFilter pf = (IParamFilter) filter;
-                f=f+ " [params=" + pf.getParameters() + "]";
+                f=f+ " [params=" + pf.getParameterString() + "]";
             }
             logger.debug(f);
         }
@@ -227,7 +227,7 @@ public class VScreenManager implements IBioclipseManager {
             IScreeningFilter filter = newFilter( filtername );
             if ( filter instanceof IParamFilter ) {
                 IParamFilter paramFilter = (IParamFilter) filter;
-                paramFilter.setParameters(params);
+                paramFilter.setParameterString(params);
                 return paramFilter;
             }else{
                 logger.debug("A non-IParamFilter was given " +

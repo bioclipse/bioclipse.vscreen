@@ -10,6 +10,15 @@
  ******************************************************************************/
 package net.bioclipse.vscreen.filters;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.log4j.Logger;
+
+import net.bioclipse.core.business.BioclipseException;
+import net.bioclipse.core.util.LogUtils;
+import net.bioclipse.vscreen.Activator;
+
 
 /**
  * An abstract implementation of an IParamFilter.
@@ -20,14 +29,57 @@ package net.bioclipse.vscreen.filters;
 public abstract class AbstractParamFilter extends AbstractScreeningFilter 
                                            implements IParamFilter {
 
-    String parameters;
+    private static final Logger logger = 
+        Logger.getLogger(AbstractParamFilter.class);
+
+    String paramString;
     
-    public String getParameters() {
-        return parameters;
+    public List<String> getParameters() {
+        return params;
     }
 
-    public void setParameters( String parameters ) {
-        this.parameters = parameters;
+    
+    public void setParameterss( List<String> params ) {
+        this.params = params;
+    }
+
+    private List<String> params;
+    
+    public String getParameterString() {
+        return paramString;
+    }
+
+    public void setParameterString( String parameters ) {
+        this.paramString = parameters;
+        try {
+            initParams();
+        } catch ( BioclipseException e ) {
+            LogUtils.handleException( e, logger, Activator.PLUGIN_ID );
+        }
+    }
+    
+    private void initParams() throws BioclipseException {
+        params=new ArrayList<String>();
+        if (getParameterString()==null) throw new BioclipseException( 
+                                   "No parameters for RestrictElementFilter!" );
+        String[] elements = getParameterString().split( "," );
+        for (String element : elements){
+            params.add( element );
+        }
+    }
+
+
+    public String toXML(){
+        String ret=" <filter type='" + getName() + "'>\n";
+        for (String param : params){
+            ret=ret + "    <parameter name='param' vlue='" + param+ " />\n";
+        }
+        ret = ret + "</filter>\n";
+        return ret;
+    }
+    
+    public void fromXML(String xml){
+        //TODO
     }
 
 }

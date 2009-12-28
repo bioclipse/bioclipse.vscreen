@@ -10,9 +10,6 @@
  ******************************************************************************/
 package net.bioclipse.vscreen.filters.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.log4j.Logger;
 
 import net.bioclipse.cdk.business.ICDKManager;
@@ -33,7 +30,6 @@ public class SMARTSFilter extends AbstractParamFilter
     private static final Logger logger = Logger.getLogger(SMARTSFilter.class);
 
     private ICDKManager cdk;
-    private List<String> smarts;
 
     /**
      * Constructor.
@@ -49,28 +45,21 @@ public class SMARTSFilter extends AbstractParamFilter
      */
     public boolean passFilter( IMolecule molecule ) throws BioclipseException {
         
-        if (smarts==null) initParams();
-        if (smarts.size()<=0) return false;
+        if (getParameters()==null || getParameters().size()<=0 ) throw 
+        new BioclipseException( "No parameters for filter: " + getName() );
 
         ICDKMolecule cdkmol = cdk.asCDKMolecule( molecule );
         
-        for (String smart : smarts){
+        for (String smart : getParameters()){
             //Filter out if there is a match
-            if (cdk.smartsMatches( cdkmol, smart ))
+            if (cdk.smartsMatches( cdkmol, smart )){
+                logger.debug(" Mol: + " + molecule + " matched SMART: " 
+                             +  smart + " which is not allowed.");
                 return false;
+            }
         }
         
         return true;
-    }
-
-    private void initParams() throws BioclipseException {
-        smarts=new ArrayList<String>();
-        if (getParameters()==null) throw new BioclipseException( 
-            "No parameters for SMARTSFilter!" );
-        String[] elements = getParameters().split( " " );
-        for (String element : elements){
-            smarts.add( element );
-        }
     }
 
 }
