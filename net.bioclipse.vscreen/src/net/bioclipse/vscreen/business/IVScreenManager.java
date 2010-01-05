@@ -10,14 +10,17 @@
  ******************************************************************************/
 package net.bioclipse.vscreen.business;
 
+import java.io.IOException;
 import java.util.List;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 
 import net.bioclipse.core.PublishedClass;
 import net.bioclipse.core.PublishedMethod;
 import net.bioclipse.core.Recorded;
 import net.bioclipse.core.business.BioclipseException;
+import net.bioclipse.managers.business.GuiAction;
 import net.bioclipse.managers.business.IBioclipseManager;
 import net.bioclipse.vscreen.filters.IScreeningFilter;
 
@@ -86,5 +89,10 @@ public interface IVScreenManager extends IBioclipseManager {
     @PublishedMethod(
        methodSummary = "Returns a list of available Filters.")
     public List<String> listFilters() throws BioclipseException;
+
+    @Recorded
+    @PublishedMethod(
+       methodSummary = "Run the currently open screening file.")
+    public void run() throws BioclipseException, CoreException, IOException;
 
 }

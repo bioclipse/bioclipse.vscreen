@@ -1,0 +1,9 @@
+   <introContent>
+      <extensionContent id="net.bioclipse.intro.workbench.tutorials" style="css/intro.css" name="Bioclipse Tuturials" path="tutorials/@">
+        <group style-id="content-group" id="workbench-group">
+          <link label="VScreen in Bioclipse" url="http://org.eclipse.ui.intro/showStandby?partId=net.bioclipse.cheatsheet&amp;input=net.bioclipse.vscreen.cheatsheet.intro"  id="vscreenitem">
+              <text>A tutorial (cheat sheet) for working with VScreen in Bioclipse.</text>
+     	    </link>
+     	</group>
+      </extensionContent>
+   </introContent>

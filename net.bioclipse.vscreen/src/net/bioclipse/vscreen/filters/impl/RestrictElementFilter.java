@@ -10,9 +10,6 @@
  ******************************************************************************/
 package net.bioclipse.vscreen.filters.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.bioclipse.cdk.business.ICDKManager;
 import net.bioclipse.cdk.domain.ICDKMolecule;
 import net.bioclipse.core.business.BioclipseException;
@@ -34,7 +31,6 @@ public class RestrictElementFilter extends AbstractParamFilter
     private static final Logger logger = Logger.getLogger(RestrictElementFilter.class);
 
     private ICDKManager cdk;
-    private List<String> allowedSymbols;
 
     /**
      * Constructor.
@@ -50,13 +46,13 @@ public class RestrictElementFilter extends AbstractParamFilter
      */
     public boolean passFilter( IMolecule molecule ) throws BioclipseException {
         
-        if (allowedSymbols==null) initParams();
-        if (allowedSymbols.size()<=0) return false;
+        if (getParameters()==null || getParameters().size()<=0 ) throw 
+             new BioclipseException( "No parameters for filter: " + getName() );
 
         ICDKMolecule cdkmol = cdk.asCDKMolecule( molecule );
         
         for (IAtom atom : cdkmol.getAtomContainer().atoms()){
-            if (!allowedSymbols.contains( atom.getSymbol())){
+            if (!getParameters().contains( atom.getSymbol())){
                 logger.debug(" Mol: + " + molecule + " contained: " 
                              +  atom.getSymbol() + " which is not allowed.");
                 return false;
@@ -66,14 +62,5 @@ public class RestrictElementFilter extends AbstractParamFilter
         return true;
     }
 
-    private void initParams() throws BioclipseException {
-        allowedSymbols=new ArrayList<String>();
-        if (getParameters()==null) throw new BioclipseException( 
-                                   "No parameters for RestrictElementFilter!" );
-        String[] elements = getParameters().split( "," );
-        for (String element : elements){
-            allowedSymbols.add( element );
-        }
-    }
 
 }

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?NLS TYPE="org.eclipse.help.toc"?>
+
+<toc label="VScreen">
+  <topic label="About VScreen" href="html/about.html"/>
+  <topic href="html/userguide.html" label="User Guide">
+  </topic>
+  <topic href="html/filters.html" label="Filters">
+  </topic>
+  <topic href="html/addFilter.html" label="Adding new filters">
+  </topic>
+</toc>

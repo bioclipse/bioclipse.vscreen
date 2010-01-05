@@ -21,5 +21,62 @@
                priority="normal">
          </content-type>
    </extension>
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            class="net.bioclipse.vscreen.ui.PerspectiveFactory"
+            icon="icons/search_16.png"
+            id="net.bioclipse.vscreen.ui.perspective"
+            name="VScreen">
+      </perspective>
+   </extension>
+   
+   <!-- -->
+   
+   
+      <extension
+         point="org.eclipse.help.toc">
+      <toc
+            file="toc.xml"
+            primary="true">
+      </toc>
+   </extension>
+   
+    <extension
+       point="org.eclipse.ui.cheatsheets.cheatSheetContent">
+    <category
+          id="net.bioclipse.vscreen.cheatsheets"
+          name="VScreen">
+    </category>
+    <cheatsheet
+          category="net.bioclipse.vscreen.cheatsheets"
+          composite="false"
+          contentFile="cheatsheets/vscreen-intro.xml"
+          id="net.bioclipse.vscreen.cheatsheet.intro"
+          name="Getting Started with VScreen">
+    </cheatsheet>
+ </extension>
+
+      <extension point="org.eclipse.ui.intro.configExtension">
+      <configExtension
+            configId="org.eclipse.ui.intro.universalConfig"
+            content="configextension.xml"/>  
+   </extension>
+
+   <extension point="org.eclipse.ui.newWizards">
+        <category
+              id="net.bioclipse.vscreen.ui.category"
+              name="VScreen">
+        </category>
+      <wizard
+		    category="net.bioclipse.vscreen.ui.category"
+            canFinishEarly="true"
+            icon="icons/files-find-icon.png"
+            class="net.bioclipse.vscreen.ui.wizards.NewVscreenWizard"
+            hasPages="false"
+            id="net.bioclipse.vscreen.ui.wizards.NewVscreenWizard"
+            name="Screening File"/>
+   </extension>
+      
 
 </plugin>

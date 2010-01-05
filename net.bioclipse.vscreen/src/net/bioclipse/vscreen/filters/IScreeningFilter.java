@@ -38,6 +38,19 @@ public interface IScreeningFilter {
      */
     public Image getIcon();
 
+
+    /**
+     * @return the XML serialization of this filter
+     */
+    public String toXML();
+
+    /**
+     * 
+     * @param xml Initialize from XML serialization
+     */
+    public void fromXML(String xml);
+
+
     /**
      * Selects if the molecule makes it through the filter.
      * @param molecule

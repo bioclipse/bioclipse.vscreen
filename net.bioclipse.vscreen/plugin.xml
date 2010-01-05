@@ -16,22 +16,26 @@
       <screeningFilter
             class="net.bioclipse.vscreen.filters.impl.MWFilter"
             id="net.bioclipse.vscreen.filters.MWFilter"
-            name="MW">
+            name="MW"
+            description="Filter out substances by molecular weight">
       </screeningFilter>
       <screeningFilter
             class="net.bioclipse.vscreen.filters.impl.XlogPFilter"
             id="net.bioclipse.vscreen.filters.XlogPFilter"
-            name="XlogP">
+            name="XlogP"
+            description="Filter out substances by partition coefficient (XlogP)">
       </screeningFilter>
       <screeningFilter
             class="net.bioclipse.vscreen.filters.impl.RestrictElementFilter"
             id="net.bioclipse.vscreen.filters.RestrictElementFilter"
-            name="restrictElement">
+            name="restrictElement"
+            description="Filter out substances by requiring the prescence of one or more elements">
       </screeningFilter>
       <screeningFilter
             class="net.bioclipse.vscreen.filters.impl.RingCountFilter"
             id="net.bioclipse.vscreen.filters.RingCountFilter"
-            name="RingCount">
+            name="RingCount"
+            description="Filter out substances by number of rings in the structure.">
       </screeningFilter>
       <screeningFilter
             class="net.bioclipse.vscreen.filters.impl.RuleOfFiveFilter"
@@ -48,7 +52,8 @@
       <screeningFilter
             class="net.bioclipse.vscreen.filters.impl.TPSAFilter"
             id="net.bioclipse.vscreen.filters.TPSAFilter"
-            name="TPSA">
+            name="TPSA"
+            description="Filter out substances by a speciied topological polar surface area (TPSA).">
       </screeningFilter>
    </extension>
    
