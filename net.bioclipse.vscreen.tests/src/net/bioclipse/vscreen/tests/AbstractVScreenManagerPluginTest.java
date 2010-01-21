@@ -72,7 +72,7 @@ public abstract class AbstractVScreenManagerPluginTest {
 //        String path=url.getFile();
         file = FileUtil.createLinkedFile(path );
         
-        sdb.addMoleculesFromSDF(TEST_DB_NAME, file, new NullProgressMonitor());
+        sdb.addMoleculesFromSDF(TEST_DB_NAME, file);
         
     }
     
