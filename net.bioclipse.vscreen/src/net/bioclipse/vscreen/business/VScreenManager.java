@@ -203,24 +203,7 @@ public class VScreenManager implements IBioclipseManager {
 
             //If all filters passed, add annotation to mol
             if (matches>=matchesRequired){
-                logger.debug("Molecule: " + molecule + 
-                " passed all filters.");   
-                if (dbname==newDBname){
-                    molecule.addAnnotation(filteredAnnotation);
-                    sdb.updateMolecule(dbname, molecule);
-                }
-                else{
-                    //New DB, we need to copy the molecule to new database
-                    DBMolecule newmol = sdb.createMolecule( newDBname, 
-                                        molecule.getName(), 
-                                        molecule );
-
-                    //Also, we need to annotate it with the filteredAnnotation
-                    sdb.annotate( newDBname, newmol, filteredAnnotation );
-                }
-            }else{
-             logger.debug("Molecule: " + molecule + " did not pass all " +
-             		"filters " + "(" + matches + " failures)");   
+                sdb.annotate( dbname, molecule, filteredAnnotation );
             }
 
             monitor.worked( 1 );
