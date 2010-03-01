@@ -1,0 +1,88 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=utf-8">
+	<TITLE>VScreen Filters</TITLE>
+  <link rel="stylesheet" href="../../PRODUCT_PLUGIN/narrow_book.css" type="text/css">
+</HEAD>
+<BODY LANG="en-US" DIR="LTR">
+<h1>VScreen Filters</h1>
+
+This is a list of the available filters in VScreen.<p>
+
+<table>	<tr><td bgcolor="#dddddd">Name</td><td bgcolor="#dddddd">ID</td><td bgcolor="#dddddd">Description</td></tr> 
+
+	<tr> 
+	<td>MW</td> 
+	<td>net.bioclipse.vscreen.filters.MWFilter</td> 
+	<td>Filter out substances by molecular weight</td> 
+	</tr> 
+
+	<tr> 
+	<td>XlogP</td> 
+	<td>net.bioclipse.vscreen.filters.XlogPFilter</td> 
+	<td>Filter out substances by partition coefficient (XlogP)</td> 
+	</tr> 
+
+	<tr> 
+	<td>restrictElement</td> 
+	<td>net.bioclipse.vscreen.filters.RestrictElementFilter</td> 
+	<td>Filter out substances by requiring the prescence of one or more elements</td> 
+	</tr> 
+
+	<tr> 
+	<td>RingCount</td> 
+	<td>net.bioclipse.vscreen.filters.RingCountFilter</td> 
+	<td>Filter out substances by number of rings in the structure.</td> 
+	</tr> 
+
+	<tr> 
+	<td>RuleOfFive</td> 
+	<td>net.bioclipse.vscreen.filters.RuleOfFiveFilter</td> 
+	<td>Filter out if above a certain number of failures for Lipinsky Rule Of Five</td> 
+	</tr> 
+
+	<tr> 
+	<td>smarts</td> 
+	<td>net.bioclipse.vscreen.filters.SMARTSFilter</td> 
+	<td>Filter out undesired structures defined by SMARTS</td> 
+	</tr> 
+
+	<tr> 
+	<td>TPSA</td> 
+	<td>net.bioclipse.vscreen.filters.TPSAFilter</td> 
+	<td>Filter out substances by a speciied topological polar surface area (TPSA).</td> 
+	</tr> 
+</table> 
+
+<p>
+
+<h2>Example usage of filters</h2>
+<font color="662222">
+<pre>
+      filters=java.util.ArrayList();
+      filters.add(vscreen.createFilter("XlogP" , "<" , 4));
+      filters.add(vscreen.createFilter("XlogP" , ">" , -2));
+      filters.add(vscreen.createFilter("MW"    , "<" , 450));
+      filters.add(vscreen.createFilter("MW"    , ">" , 150));
+      filters.add(vscreen.createFilter("restrictElement", "C,N,O,Cl,S,F"));
+      filters.add(vscreen.createFilter("RingCount"    , ">=" , 1));
+      filters.add(vscreen.createFilter("RuleOfFive"    , "<=" , 1));
+      filters.add(vscreen.createFilter("TPSA"    , "<" , 200));
+      filters.add(vscreen.createFilter("TPSA"    , ">" , 80));
+      filters.add(vscreen.createFilter("SMARTS"    , "a[N;X2]=O CO[N;X2]=O"));
+</pre>
+</font>
+
+<p>
+There are several VScreen scripts demonstrating filtering available as Gists. 
+For example: <a href="http://gist.github.com/200556">http://gist.github.com/200556</a>. 
+We encourage tagging of gists on delicious using the 'bioclipse,gist,vscreen' tags (see alist on 
+<a href="http://delicious.com/tag/bioclipse+gist+vscreen">http://delicious.com/tag/bioclipse+gist+vscreen</a>.
+
+<p>
+
+
+
+</BODY>
+</HTML>

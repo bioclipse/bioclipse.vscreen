@@ -10,13 +10,13 @@
  ******************************************************************************/
 package net.bioclipse.vscreen.filters;
 
-
 /**
- * 
+ * An IDoubleFilter has a threshold and an operator.
+ * Example: operator="<" and threshold="5".
  * @author ola
  *
  */
-public interface IDoubleFilter extends IFilter{
+public interface IDoubleFilter extends IScreeningFilter{
 
     public void setThreshold(double threshold);
     public double getThreshold();

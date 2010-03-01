@@ -10,12 +10,18 @@
  ******************************************************************************/
 package net.bioclipse.vscreen.filters;
 
-import net.bioclipse.core.business.BioclipseException;
-import net.bioclipse.structuredb.domain.DBMolecule;
+import java.util.List;
 
+/**
+ * An IParamFilter can take a String as input parameter
+ * @author ola
+ */
+public interface IParamFilter extends IScreeningFilter{
 
-public interface IFilter {
+    public void setParameterString(String params);
+    public String getParameterString();
 
-    boolean doMatch( DBMolecule molecule ) throws BioclipseException;
-    public String getName();
+    public List<String> getParameters();
+    public void setParameterss( List<String> params );
+
 }

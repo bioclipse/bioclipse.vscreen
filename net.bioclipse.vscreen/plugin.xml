@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
+   <extension-point id="filter" name="VScreen Filter" schema="schema/filter.exsd"/>
 
    <extension
          point="net.bioclipse.scripting.contribution">
@@ -9,5 +10,53 @@
             id="net.bioclipse.vscreen.business.VScreenManager">
       </scriptContribution>
    </extension>
+
+   <extension
+         point="net.bioclipse.vscreen.filter">
+      <screeningFilter
+            class="net.bioclipse.vscreen.filters.impl.MWFilter"
+            id="net.bioclipse.vscreen.filters.MWFilter"
+            name="MW"
+            description="Filter out substances by molecular weight">
+      </screeningFilter>
+      <screeningFilter
+            class="net.bioclipse.vscreen.filters.impl.XlogPFilter"
+            id="net.bioclipse.vscreen.filters.XlogPFilter"
+            name="XlogP"
+            description="Filter out substances by partition coefficient (XlogP)">
+      </screeningFilter>
+      <screeningFilter
+            class="net.bioclipse.vscreen.filters.impl.RestrictElementFilter"
+            id="net.bioclipse.vscreen.filters.RestrictElementFilter"
+            name="restrictElement"
+            description="Filter out substances by requiring the prescence of one or more elements">
+      </screeningFilter>
+      <screeningFilter
+            class="net.bioclipse.vscreen.filters.impl.RingCountFilter"
+            id="net.bioclipse.vscreen.filters.RingCountFilter"
+            name="RingCount"
+            description="Filter out substances by number of rings in the structure.">
+      </screeningFilter>
+      <screeningFilter
+            class="net.bioclipse.vscreen.filters.impl.RuleOfFiveFilter"
+            id="net.bioclipse.vscreen.filters.RuleOfFiveFilter"
+            description="Filter out if above a certain number of failures for Lipinsky Rule Of Five"
+            name="RuleOfFive">
+      </screeningFilter>
+      <screeningFilter
+            class="net.bioclipse.vscreen.filters.impl.SMARTSFilter"
+            id="net.bioclipse.vscreen.filters.SMARTSFilter"
+            description="Filter out undesired structures defined by SMARTS"
+            name="smarts">
+      </screeningFilter>
+      <screeningFilter
+            class="net.bioclipse.vscreen.filters.impl.TPSAFilter"
+            id="net.bioclipse.vscreen.filters.TPSAFilter"
+            name="TPSA"
+            description="Filter out substances by a speciied topological polar surface area (TPSA).">
+      </screeningFilter>
+   </extension>
+   
+   
 
 </plugin>

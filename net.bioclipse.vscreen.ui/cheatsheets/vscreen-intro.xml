@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cheatsheet
+      title="Getting started with MetaPrint2D">
+   <intro
+         href="/net.bioclipse.vscreen.ui/html/userguide.html">
+      <description>
+         <b>Vscreen</b>
+This tutorial describes the basic steps for using the VScreen feature of Bioclipse for virtual screening of chemical databases.
+      </description>
+   </intro>
+
+   <item
+         title="Step 1: Open the VScreen Perspective">
+      <description>
+         The <b>Vscreen Perspective</b> is a setup of the workbench which is suitable for virtual screening. It simply rearranges the visible Views.
+<br/><br/>
+In the top menu, select option <b>Window &gt; Open Perspective &gt; Other...</b> and in the dialog select the <b>VScreen</b> option.
+      </description>
+      <command
+            required="false"
+            serialization="org.eclipse.ui.perspectives.showPerspective(org.eclipse.ui.perspectives.showPerspective.perspectiveId=net.bioclipse.vscreen.ui.perspective)"/>
+   </item>
+   
+   <item
+         title="Step 2: Set up a local database">
+      <description>
+         In the DatabaseView, right-click on StructureDB and select <b>Create new local Structure database...</b>.
+      </description>
+    <action
+			pluginId="net.bioclipse.scripting.ui"
+			class="net.bioclipse.scripting.ui.actions.ScriptAction"
+	        required="false"
+			param1="structuredb.createDatabase(&quot;myDB&quot;)"
+			/>
+   </item>
+
+   <item
+         title="Step 3: Populate the database">
+      <description>
+      	 The most convenient way to populate a StructureDB database is to drag an SDFile from the Bioclipse Navigator (on the left side in the workbench) to the database created in the previous step. 
+      	 This populates the database with these molecules. For an introduction to Projects and Resources and how to copy files into the Bioclipse Workspace (and become visible in the Navigator) see other cheat sheets from the <b>Help</b> menu.
+      	 <br/><br/>
+      	 Continue by adding your own molecules or clicking "Perform" below to add some molecules to the database.
+      </description>
+    <action
+			pluginId="net.bioclipse.scripting.ui"
+			class="net.bioclipse.scripting.ui.actions.ScriptAction"
+	        required="false"
+			param1='structuredb.createMolecule("myDB", "molecule1", cdk.fromSMILES("C(=O)N(Cc1ccco1)C(c1cc2ccccc2cc1)C(=O)NCc1ccccc1"));
+			        structuredb.createMolecule("myDB", "molecule2", cdk.fromSMILES("C(=O)(CNC(=O)OC(C)(C)C)N(Cc1oc(C(F)(F)F)cc1)C(c1ccccc1)C(=O)NCc1ccccc1"));
+			        structuredb.createMolecule("myDB", "molecule3", cdk.fromSMILES("C(=O)(C=CC)N(CCCCCCC)C(c1cc2c(cccc2)c2ccccc12)C(=O)NC(C)(C)C"));
+			        structuredb.createMolecule("myDB", "molecule4", cdk.fromSMILES("O=S(=O)(N)CC1=NOC2=CC=CC=C12"));
+			        structuredb.createMolecule("myDB", "molecule5", cdk.fromSMILES("O=C1CCC5(O)(C4N(CCC25(C=3C(OC12)=C(O)C=CC=3C4))CC6CC6)"));
+			        structuredb.createMolecule("myDB", "molecule6", cdk.fromSMILES("O=P1(OCCCN1(CCCl))(NCCCl)"));
+			        structuredb.createMolecule("myDB", "molecule7", cdk.fromSMILES("N=1C=NN(C=1)CC=2C=CC=3NC=C(C=3(C=2))CCN(C)C"));
+			        structuredb.createMolecule("myDB", "molecule8", cdk.fromSMILES("O=C(O)C2N(C(=O)C(NC(C(=O)OCC)CCC1=CC=CC=C1)C)C3CCCC3(C2)"));
+			        structuredb.createMolecule("myDB", "molecule9", cdk.fromSMILES("CCCO"));
+			        structuredb.createMolecule("myDB", "molecule10", cdk.fromSMILES("CCCCCCCCO"));'
+			/>
+   </item>
+
+   <item
+         title="Step 4: Create a screening file.">
+      <description>
+		Screening files are used to add and configure filters for screening. 
+		You can easily create a new Screening file via a Wizard from the menu <b>File > New... > other...</b> 
+		and then select <b>VScreen > Screening file</b>.
+      </description>
+      <command
+            required="false"
+            serialization="org.eclipse.ui.newWizard(newWizardId=net.bioclipse.vscreen.ui.wizards.NewVscreenWizard)"/>
+   </item>
+
+   <item
+         href="/net.bioclipse.vscreen.ui/html/filters.html"
+         title="Step 5: View available screening filters">
+      <description>
+         Various filters can be added to screening files. To see a list of available filters, click the help page or click "Perform" below.
+      </description>
+    <action 
+			pluginId="net.bioclipse.scripting.ui"
+			class="net.bioclipse.scripting.ui.actions.ScriptAction"
+	        required="false"
+			param1="vscreen.listFilters();"
+			/>
+   </item>
+
+   <item
+         title="Step 6: Execute the screening">
+      <description>
+         In the main toolbar, click the icon "Run JavaScript" to run the screening. 
+         A progress bar will inform about the screening progress.
+      </description>
+    <action 
+			pluginId="net.bioclipse.scripting.ui"
+			class="net.bioclipse.scripting.ui.actions.ScriptAction"
+	        required="false"
+			param1="vscreen.run()"
+			/>
+   </item>
+
+      <item 
+         title="Step 7: Inspect results">
+      <description>
+      	 In the DatabaseView, expand the new database and double-click on the label "filtered". This opens the MoleculesTable and displays the resulting chemical structures.
+      </description>
+   </item>
+
+      <item 
+         title="More information">
+      <description>
+         This step concludes this tutorial. For more information, please refer to the Bioclipse Help system available from the top menu <b>Help > Help Contents</b>.
+      </description>
+          <command
+          required="false"
+          serialization="org.eclipse.ui.help.displayHelp(href=/net.bioclipse.vscreen.ui/html/userguide.html)"/>
+   </item>
+   
+</cheatsheet>

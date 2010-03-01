@@ -2,23 +2,31 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: VScreen
 Bundle-SymbolicName: net.bioclipse.vscreen; singleton:=true
-Bundle-Version: 2.2.0.RC1
+Bundle-Version: 2.2.0.v20100127
 Bundle-Activator: net.bioclipse.vscreen.Activator
 Bundle-Vendor: The Bioclipse Team
-Export-Package: net.bioclipse.vscreen, net.bioclipse.vscreen.business
+Export-Package: net.bioclipse.vscreen,
+ net.bioclipse.vscreen.business,
+ net.bioclipse.vscreen.filters
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
+ org.eclipse.core.resources,
  net.bioclipse.core,
  net.bioclipse.scripting,
  org.springframework.bundle.spring.aop,
  net.sf.cglib,
  org.springframework.osgi.aopalliance.osgi,
- net.bioclipse.structuredb;bundle-version="2.1.0",
- net.bioclipse.cdk.business;bundle-version="2.1.0",
- org.openscience.cdk.qsar;bundle-version="1.3.0",
- org.openscience.cdk.qsaratomic;bundle-version="1.3.0",
- org.openscience.cdk.qsarmolecular;bundle-version="1.3.0",
- org.openscience.cdk.standard;bundle-version="1.3.0"
+ net.bioclipse.structuredb,
+ net.bioclipse.cdk.business,
+ org.openscience.cdk.qsar,
+ org.openscience.cdk.qsaratomic,
+ org.openscience.cdk.qsarmolecular,
+ org.openscience.cdk.standard,
+ org.openscience.cdk.interfaces,
+ org.openscience.cdk.smarts,
+ org.eclipse.ui.ide,
+ net.bioclipse.scripting.ui;bundle-version="2.2.0"
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Import-Package: org.apache.log4j
+Import-Package: org.apache.commons.logging,
+ org.apache.log4j
 Bundle-ActivationPolicy: lazy

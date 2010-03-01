@@ -1,0 +1,105 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=utf-8">
+	<TITLE>Adding new filters to VScreen</TITLE>
+  <link rel="stylesheet" href="../../PRODUCT_PLUGIN/narrow_book.css" type="text/css">
+</HEAD>
+<BODY LANG="en-US" DIR="LTR">
+<h1>Adding new filters to VScreen</h1>
+
+The extension point <b>net.bioclipse.vscreen.filter</b> should be used to declare 
+new filters for the VScreen feature. An example extension can be seen below:<p>
+<font color="227722">
+<pre>
+   &lt;extension
+         point="net.bioclipse.vscreen.filter"&gt;
+      &lt;screeningFilter
+            class="net.bioclipse.vscreen.filters.impl.MWFilter"
+            id="net.bioclipse.vscreen.filters.MWFilter"
+            name="MW"
+            description="Filter out substances by molecular weight"&gt;
+      &lt;/screeningFilter&gt;
+   &lt;/extension&gt;
+   
+</pre>
+</font>
+
+<p>
+In the example, the class <i>net.bioclipse.vscreen.filters.impl.MWFilter</i> must implement 
+the interface <b>net.bioclipse.vscreen.filters.IScreeningFilter</b>. 
+For convenience, there exist an abstract implementation that can be extended in its place, 
+named <b>net.bioclipse.vscreen.filters.AbstractScreeningFilter</b>.<p>
+
+<h2>Convenience classes for Screening filters</h2><p>
+Two interfaces and abstract implementations exist that greatly simplify addition of filters.<p>
+
+<b>net.bioclipse.vscreen.filters.IDoubleFilter</b> and the abstract implementation 
+<b>net.bioclipse.vscreen.filters.AbstractDoubleFilter</b> provide a base class for 
+filters that calculates a Double for the molecule and compares this with a given 
+<i>threshold</i> via an <i>operator</i>. They reduce the code to implement to only 
+the passFilter(..) method, see the following example for the filter <i>MW</i>:<p>
+
+<font color="222277">
+<pre>
+    public boolean passFilter( IMolecule molecule ) throws BioclipseException {
+        double val = cdk.calculateMass( molecule);
+        boolean result=compare( val, getThreshold());
+        logger.debug(" Mol: + " + molecule + " has " + getName() + "=" + val + 
+                     " Required: " + operatorToString( getOperator()) + 
+                     ""+ getThreshold() + " PASS=" + result );
+       return result;
+    }
+</pre>
+</font>
+<p>
+This filter can then be created with the following scripting command:<p>
+
+<font color="662222">
+<pre>
+       vscreen.createFilter("MW"    , "<" , 300)
+</pre>
+</font>
+
+<p>
+
+
+
+<b>net.bioclipse.vscreen.filters.IParamFilter</b> and the abstract implementation 
+<b>net.bioclipse.vscreen.filters.AbstractParamFilter</b> provide a base class for 
+filters that takes a comma-separated string of parameters as input. 
+They reduce the code to implement to only 
+the passFilter(..) method, see the following example for the filter <i>RestrictElemen</i>:<p>
+
+<font color="222277">
+<pre>
+    public boolean passFilter( IMolecule molecule ) throws BioclipseException {
+        
+        if (getParameters()==null || getParameters().size()<=0 ) throw 
+             new BioclipseException( "No parameters for filter: " + getName() );
+
+        ICDKMolecule cdkmol = cdk.asCDKMolecule( molecule );
+        
+        for (IAtom atom : cdkmol.getAtomContainer().atoms()){
+            if (!getParameters().contains( atom.getSymbol())){
+                logger.debug(" Mol: + " + molecule + " contained: " 
+                             +  atom.getSymbol() + " which is not allowed.");
+                return false;
+            }
+        }
+        
+        return true;
+    }</pre>
+</font>
+<p>
+This filter can then be created with the following scripting command:<p>
+
+<font color="662222">
+<pre>
+       vscreen.createFilter("restrictElement", "C,N,O,Cl,S,F")
+</pre>
+</font>
+
+
+</BODY>
+</HTML>

@@ -16,7 +16,7 @@ public class JavaVScreenManagerPluginTest
     extends AbstractVScreenManagerPluginTest {
 
     @BeforeClass public static void setup() {
-        managerNamespace = net.bioclipse.vscreen.Activator.getDefault()
+        vscreen = net.bioclipse.vscreen.Activator.getDefault()
             .getJavaVScreenManager();
     }
 
