@@ -10,8 +10,8 @@
  ******************************************************************************/
 package net.bioclipse.vscreen.tests;
 
- import net.bioclipse.core.tests.coverage.AbstractCoverageTest;
-import net.bioclipse.managers.business.IBioclipseManager;
+ import net.bioclipse.core.api.managers.IBioclipseManager;
+import net.bioclipse.core.tests.coverage.AbstractCoverageTest;
 import net.bioclipse.vscreen.business.IVScreenManager;
 import net.bioclipse.vscreen.business.VScreenManager;
 

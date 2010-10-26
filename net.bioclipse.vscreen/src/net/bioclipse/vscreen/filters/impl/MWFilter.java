@@ -13,8 +13,8 @@ package net.bioclipse.vscreen.filters.impl;
 import org.apache.log4j.Logger;
 
 import net.bioclipse.cdk.business.ICDKManager;
-import net.bioclipse.core.business.BioclipseException;
-import net.bioclipse.core.domain.IMolecule;
+import net.bioclipse.core.api.BioclipseException;
+import net.bioclipse.core.api.domain.IMolecule;
 import net.bioclipse.vscreen.filters.AbstractDoubleFilter;
 import net.bioclipse.vscreen.filters.IDoubleFilter;
 

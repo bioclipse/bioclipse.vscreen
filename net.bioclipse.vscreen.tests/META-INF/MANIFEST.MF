@@ -17,7 +17,8 @@ Require-Bundle: org.eclipse.ui,
  org.junit4,
  net.bioclipse.vscreen,
  net.bioclipse.structuredb;bundle-version="2.1.0",
- net.bioclipse.cdk.business;bundle-version="2.1.0"
+ net.bioclipse.cdk.business;bundle-version="2.1.0",
+ net.bioclipse.core.api;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Import-Package: org.apache.log4j
 Bundle-ActivationPolicy: lazy

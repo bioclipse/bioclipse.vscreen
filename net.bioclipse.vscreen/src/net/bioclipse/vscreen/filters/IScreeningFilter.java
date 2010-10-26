@@ -12,8 +12,8 @@ package net.bioclipse.vscreen.filters;
 
 import org.eclipse.swt.graphics.Image;
 
-import net.bioclipse.core.business.BioclipseException;
-import net.bioclipse.core.domain.IMolecule;
+import net.bioclipse.core.api.BioclipseException;
+import net.bioclipse.core.api.domain.IMolecule;
 
 /**
  * An IScreeningFilter is used to filter out molecules in VScreen.

@@ -19,12 +19,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import net.bioclipse.core.business.BioclipseException;
+import net.bioclipse.core.api.BioclipseException;
+import net.bioclipse.core.api.managers.IBioclipseManager;
 import net.bioclipse.core.util.LogUtils;
 import net.bioclipse.core.util.StringInput;
 import net.bioclipse.core.util.StringStorage;
 import net.bioclipse.core.util.TimeCalculator;
-import net.bioclipse.managers.business.IBioclipseManager;
 import net.bioclipse.scripting.ui.business.IJsConsoleManager;
 import net.bioclipse.structuredb.Activator;
 import net.bioclipse.structuredb.business.IJavaStructuredbManager;

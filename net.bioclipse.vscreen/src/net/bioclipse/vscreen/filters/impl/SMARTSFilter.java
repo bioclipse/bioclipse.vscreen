@@ -14,8 +14,8 @@ import org.apache.log4j.Logger;
 
 import net.bioclipse.cdk.business.ICDKManager;
 import net.bioclipse.cdk.domain.ICDKMolecule;
-import net.bioclipse.core.business.BioclipseException;
-import net.bioclipse.core.domain.IMolecule;
+import net.bioclipse.core.api.BioclipseException;
+import net.bioclipse.core.api.domain.IMolecule;
 import net.bioclipse.vscreen.filters.AbstractParamFilter;
 import net.bioclipse.vscreen.filters.IParamFilter;
 
