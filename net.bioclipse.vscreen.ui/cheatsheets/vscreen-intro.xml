@@ -63,7 +63,7 @@ In the top menu, select option <b>Window &gt; Open Perspective &gt; Other...</b>
          title="Step 4: Create a screening file.">
       <description>
 		Screening files are used to add and configure filters for screening. 
-		You can easily create a new Screening file via a Wizard from the menu <b>File > New... > other...</b> 
+		You can easily create a new Screening file via a Wizard from the menu <b>File > New...</b> 
 		and then select <b>VScreen > Screening file</b>.
       </description>
       <command
