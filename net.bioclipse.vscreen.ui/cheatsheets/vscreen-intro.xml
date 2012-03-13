@@ -12,7 +12,7 @@ This tutorial describes the basic steps for using the VScreen feature of Bioclip
    <item
          title="Step 1: Open the VScreen Perspective">
       <description>
-         The <b>Vscreen Perspective</b> is a setup of the workbench which is suitable for virtual screening. It simply rearranges the visible Views.
+         The <b>VScreen Perspective</b> is a setup of the workbench which is suitable for virtual screening. It simply rearranges the visible Views.
 <br/><br/>
 In the top menu, select option <b>Window &gt; Open Perspective &gt; Other...</b> and in the dialog select the <b>VScreen</b> option.
       </description>
